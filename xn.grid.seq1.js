@@ -16,7 +16,7 @@ function clear() {
    states[i] = 0;
    leds1[i] = 0;
    leds2[i] = 0;
-   probs[i%6] = 3;
+   probs[i] = 3;
   }
   redraw();
 }
@@ -25,12 +25,12 @@ function key(x,y,z){
   if(x>=8&&x<16){ //left side
     xl = x-8;
     states[xl + y*8] = (states[xl + y*8] + 1)%4;
-    leds1[xl + y*8] = (states[xl+(y*8)])*probs[xl]+2;
+    leds1[xl + y*8] = (states[xl+(y*8)])*(probs[xl])+2;
     if(leds1[xl+y*8] ==2){
       leds1[xl+y*8] = 0;
     }
-    redraw();
   }
+  redraw();
   outlet(1,states);
   if(x==8&&y==7){
     if(states[xl + y*8] == 0 || states[xl + y*8] == 2){
@@ -43,6 +43,7 @@ function key(x,y,z){
         leds2[i+j*8]=probs[i]*2+2;
       }
     }
+    redraw();
   }
 }
 
@@ -73,7 +74,7 @@ function play(count){
 }
 
 function redraw(){
-  if(ledstate < 2){
+  if(ledstate == 1){
     for(var x=0;x<8;x++){
       for(var y=0;y<8;y++){
         var z = leds1[x+(y*8)];
@@ -82,7 +83,7 @@ function redraw(){
       }
     }
   }
-  else if(ledstate >= 2){
+  else if(ledstate == 2){
     for(var x=0;x<8;x++){
       for(var y=0;y<8;y++){
         var z = leds2[x+(y*8)];
