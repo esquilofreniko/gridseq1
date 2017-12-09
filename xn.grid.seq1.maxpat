@@ -190,12 +190,12 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-8",
-					"linecount" : 4,
+					"linecount" : 8,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 67.0, 325.0, 174.0, 64.0 ],
+					"patching_rect" : [ 154.0, 325.0, 87.0, 119.0 ],
 					"style" : "",
 					"text" : "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"
 				}
@@ -208,7 +208,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 222.0, 394.0, 50.0, 22.0 ],
+					"patching_rect" : [ 304.0, 405.0, 50.0, 22.0 ],
 					"style" : "",
 					"text" : "0."
 				}
@@ -475,7 +475,7 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-116", 1 ],
-					"order" : 1,
+					"order" : 0,
 					"source" : [ "obj-27", 2 ]
 				}
 
@@ -483,7 +483,7 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-48", 0 ],
-					"order" : 0,
+					"order" : 1,
 					"source" : [ "obj-27", 2 ]
 				}
 
