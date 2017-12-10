@@ -5,7 +5,7 @@ var ledstate=1;
 
 var oldtrigledval;
 
-var states = new Array(64);
+var states1 = new Array(64);
 var probs = new Array(8);
 var leds1 = new Array(64);
 var leds2 = new Array(64);
@@ -13,38 +13,59 @@ var leds2 = new Array(64);
 function clear() {
   ledstate=1;
   for(var i = 0; i<64;i++){
-   states[i] = 0;
+   states1[i] = 0;
    leds1[i] = 0;
    leds2[i] = 0;
-   probs[i] = 3;
+   probs[i] = 1;
   }
   redraw();
 }
 
 function key(x,y,z){
-  if(x>=8&&x<16){ //left side
-    xl = x-8;
-    states[xl + y*8] = (states[xl + y*8] + 1)%4;
-    leds1[xl + y*8] = (states[xl+(y*8)])*(probs[xl])+2;
+  // xl is the x of left size
+  var xl = x-8;
+  if (ledstate==1){
+    states1[xl + y*8] = (states1[xl + y*8] + 1)%4;
+    leds1[xl + y*8] = (states1[xl+(y*8)])*(probs[xl])+2;
     if(leds1[xl+y*8] ==2){
       leds1[xl+y*8] = 0;
     }
   }
-  redraw();
-  outlet(1,states);
-  if(x==8&&y==7){
-    if(states[xl + y*8] == 0 || states[xl + y*8] == 2){
+  if (ledstate==2){
+    if(y==7){
+      var changer1=xl;
+      if(xl == changer1){
+        states1[xl + y*8] = (states1[xl + y*8] + 1)%4;
+        leds1[xl + y*8] = (states1[xl+(y*8)])*(probs[xl])+2;
+          if(leds1[xl+y*8] ==2){
+            leds1[xl+y*8] = 0;
+          }
+        }
+      }
+  }
+  //ledstate
+  if(y==7){
+    if(states1[xl + y*8] == 0 || states1[xl + y*8] == 2){
       ledstate = 1;
-    }else if(states[xl + y*8] == 1 || states[xl + y*8] == 3){
+    }else if(states1[xl + y*8] == 1 || states1[xl + y*8] == 3){
       ledstate = 2;
     }
+  }
+  if(ledstate==2){
+    if(y<6){
+      probs[xl]=5-y;
+    }
     for(var i=0;i<8;i++){
-      for(var j=4;j>probs[i];j--){
-        leds2[i+j*8]=probs[i]*2+2;
+      for(var j=4;j>=0;j--){
+        leds2[i+j*8]=(probs[i]*2+2);
+        if(leds2[i+j*8] ==2){
+          leds2[i+j*8] = 0;
+        }
       }
     }
-    redraw();
   }
+  redraw();
+  outlet(1,states1);
 }
 
 function play(count){
