@@ -4,9 +4,9 @@ outlets = 2;
 var ledstate=1;
 
 var states1 = new Array(64);
-var probs = new Array(8);
 var leds1 = new Array(64);
 var leds2 = new Array(64);
+var probs = new Array(8);
 var probmath = new Array(8);
 var probrand  = new Array(8);
 var oldtrigledval = new Array(8);
@@ -17,7 +17,9 @@ function clear() {
    states1[i] = 0;
    leds1[i] = 0;
    leds2[i] = 0;
-   probs[i] = 2;
+  }
+  for(var i=0;i<8;i++){
+   probs[i] = 3;
   }
   redraw();
 }
@@ -38,7 +40,7 @@ function key(x,y,z){
       if(xl == changer1){
         states1[xl + y*8] = (states1[xl + y*8] + 1)%4;
         leds1[xl + y*8] = (states1[xl+(y*8)])*(probs[xl])+2;
-          if(leds1[xl+y*8] ==2){
+          if(leds1[xl+y*8] <3){
             leds1[xl+y*8] = 0;
           }
         }
@@ -92,10 +94,10 @@ function play(count){
       probrand[i] = Math.random()*10;
       if(probmath[i]>probrand[i]){
         outlet(0,"trig",i);
-        outlet(1,probrand[i]);
         oldtrigledval[i] = leds1[i+(count*8)];
         leds1[i+(count*8)] = 15;
       }
+      outlet(1,probrand[i]);
     }
   }
   redraw();
