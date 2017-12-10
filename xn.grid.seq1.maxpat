@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 1024.0, 85.0, 461.0, 920.0 ],
+		"rect" : [ 1024.0, 85.0, 790.0, 920.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -45,7 +45,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 88.0, 147.0, 50.0, 22.0 ],
 					"style" : "",
-					"text" : "10 3 0"
+					"text" : "9 7 0"
 				}
 
 			}
@@ -190,13 +190,14 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-8",
+					"linecount" : 8,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 152.0, 342.0, 89.0, 22.0 ],
+					"patching_rect" : [ 152.0, 342.0, 89.0, 119.0 ],
 					"style" : "",
-					"text" : "3 3 3 3 3 3 3 3"
+					"text" : "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"
 				}
 
 			}
@@ -236,7 +237,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 163.25, 263.0, 44.0, 22.0 ],
 					"style" : "",
-					"text" : "2"
+					"text" : "1"
 				}
 
 			}
