@@ -1,5 +1,5 @@
 inlets = 1;
-outlets = 2;
+outlets = 3;
 
 //task delayer
 var Delayer=new Task(delayed);
@@ -23,7 +23,7 @@ var probs = new Array(8);
 var probmath = new Array(8);
 var probrand  = new Array(8);
 var outs  = new Array(8);
-outs = [0,1,2,3,4,5,6,7];
+outs = [1,2,3,4,5,6,7,8];
 
 function clear() {
   ledstate=1;
@@ -71,6 +71,7 @@ function key(x,y,z){
 	}
   redraw();
   outlet(1,outs);
+	outlet(2,nxl);
 }
 
 function statechanger(xl,y){
@@ -123,17 +124,23 @@ function probabilitymenu(xl,y){
   }
 }
 
+var nmxl;
+
 function notemenu(nxl,y){
-		if(y<=5){
-			outs[nxl]=nxl+y*8;
-		}
+	if(y==7){
+		nmxl = nxl;
 	}
-  for(var i=0;i<8;i++){
+	for(var i=0;i<8;i++){
     for(var j=0;j<8;j++){
       leds2[i+j*8]=0;
 		}
 	}
+	if(y<=5){
+		outs[nmxl]=(nxl+y*8)+1;
+	}
+	leds2[outs[nmxl]-1]=10;
 }
+
 
 function play(count){
   count %= 8;
