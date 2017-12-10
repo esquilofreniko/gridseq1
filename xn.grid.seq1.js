@@ -4,7 +4,6 @@ outlets = 3;
 //task delayer
 var Delayer=new Task(delayed);
 var delayValue='';
-
 function delayed(){
 	eval(delayValue);
 	delayValue='';
@@ -16,11 +15,12 @@ function delayThis(a,b){
 
 var ledstate=1;
 var nmxl;
-
 var states1 = new Array(64);
 var leds1 = new Array(64);
 var leds2 = new Array(64);
+var octs = new Array(8);
 var probs = new Array(8);
+var fills = new Array(8);
 var probmath = new Array(8);
 var probrand  = new Array(8);
 var outs  = new Array(8);
@@ -34,7 +34,9 @@ function clear() {
    leds2[i] = 0;
   }
   for(var i=0;i<8;i++){
-   probs[i] = 5;
+   probs[i] = 2;
+	 fills[i] = 2;
+	 octs[i] = 0;
   }
   redraw();
 }
@@ -68,15 +70,24 @@ function key(x,y,z){
 	  }
 	}
 	if(states1[0+(6*8)]==1 || states1[0+(6*8)]==3){
-		probabilitymenu(xl,y);
+		octavemenu(xl,y);
 	}
 	if(states1[1+(6*8)]==1 || states1[1+(6*8)]==3){
-		sfmxl = states1[1+6*8];
+		clockmenu(xl,y);
+	}
+	if(states1[2+(6*8)]==1 || states1[2+(6*8)]==3){
+		probabilitymenu(xl,y);
+	}
+	if(states1[3+(6*8)]==1 || states1[3+(6*8)]==3){
+		sfmxl = states1[2+6*8];
 		fillmenu(xl,y);
+	}
+	if(states1[7+(6*8)]==1 || states1[7+(6*8)]==3){
+		modemenu(xl,y);
 	}
   redraw();
   outlet(1,outs);
-	outlet(2,xl);
+	outlet(2,fills);
 }
 
 function statechanger(xl,y){
@@ -110,32 +121,13 @@ function ledstatemenu(){
   }
 }
 
-function probabilitymenu(xl,y){
-  if(y<=5){
-    probs[xl]=5-y;
-  }
-  for(var i=0;i<8;i++){
-    for(var j=4;j>=5-probs[i];j--){
-      leds2[i+j*8]=(probs[i]*2+2);
-      if(leds2[i+j*8] ==2){
-        leds2[i+j*8] = 0;
-      }
-    }
-    for(var j=0;j<=4-probs[i];j++){
-      leds2[i+j*8]=0;
-    }
-    leds2[i+5*8]=0;
-    leds2[i+6*8]=0;
-  }
-}
-
 function notemenu(nxl,y){
 	if(y==7){
 		nmxl = nxl;
 	}
 	for(var i=0;i<8;i++){
-    for(var j=0;j<6;j++){
-      leds2[i+j*8]=2;
+		for(var j=0;j<6;j++){
+			leds2[i+j*8]=2;
 		}
 		for(var j=0;j<2;j++){
 			leds2[i+(j+6)*8]=0;
@@ -147,26 +139,72 @@ function notemenu(nxl,y){
 	leds2[outs[nmxl]-1]=10;
 }
 
-function fillmenu(xl,y){
-	var fillnumb, fillrand;
+function octavemenu(xl,y){
 	for(var i=0;i<8;i++){
     for(var j=0;j<8;j++){
       leds2[i+j*8]=0;
 		}
-		leds2[i]=14;
-		leds2[i+1*8]=12;
-		leds2[i+2*8]=8;
-		leds2[i+3*8]=6;
-		leds2[i+4*8]=4;
+	}
+}
+
+function modemenu(xl,y){
+	for(var i=0;i<8;i++){
+    for(var j=0;j<8;j++){
+      leds2[i+j*8]=0;
+		}
+	}
+}
+
+function clockmenu(xl,y){
+	for(var i=0;i<8;i++){
+    for(var j=0;j<8;j++){
+      leds2[i+j*8]=0;
+		}
+	}
+}
+
+function probabilitymenu(xl,y){
+	if(y<=5){
+		probs[xl]=5-y;
+	}
+	for(var i=0;i<8;i++){
+		for(var j=4;j>=5-probs[i];j--){
+			leds2[i+j*8]=(probs[i]*2+2);
+			if(leds2[i+j*8] ==2){
+				leds2[i+j*8] = 0;
+			}
+		}
+		for(var j=0;j<=4-probs[i];j++){
+			leds2[i+j*8]=0;
+		}
 		leds2[i+5*8]=0;
+		leds2[i+6*8]=0;
+	}
+}
+
+function fillmenu(xl,y){
+	var fillnumb, fillrand;
+	for(var i=0;i<8;i++){
+    for(var j=0;j<5;j++){
+      leds2[i+j*8]=5;
+		}
+		for(var j=5;j<7;j++){
+      leds2[i+j*8]=0;
+		}
+		for(var j=0;j<5-fills[i];j++){
+			leds2[i+j*8]=0;
+		}
+		leds2[i+((5-fills[i])*8)]=10;
 	}
 	if(y==0){
+		fills[xl]=5;
 		for(var i=0;i<8;i++){
 			states1[xl+i*8] = 2;
 			leds1map(xl,i);
 		}
 	}
 	if(y==1){
+		fills[xl]=4;
 		for(var i=0;i<8;i++){
 			fillrand = Math.random()*10;
 			fillnumb = 8;
@@ -180,6 +218,7 @@ function fillmenu(xl,y){
 		}
 	}
 	if(y==2){
+		fills[xl]=3;
 		for(var i=0;i<8;i++){
 			fillrand = Math.random()*10;
 			fillnumb = 6;
@@ -193,6 +232,7 @@ function fillmenu(xl,y){
 		}
 	}
 	if(y==3){
+		fills[xl]=2;
 		for(var i=0;i<8;i++){
 			fillrand = Math.random()*10;
 			fillnumb = 4;
@@ -206,6 +246,7 @@ function fillmenu(xl,y){
 		}
 	}
 	if(y==4){
+		fills[xl]=1;
 		for(var i=0;i<8;i++){
 			fillrand = Math.random()*10;
 			fillnumb = 2;
@@ -219,15 +260,16 @@ function fillmenu(xl,y){
 		}
 	}
 	if(y==5){
+		fills[xl]=0;
 		for(var i=0;i<8;i++){
 			states1[xl+i*8] = 0;
 			leds1map(xl,i);
 		}
 	}
-	if(states1[1+6*8] == 0 || states1[1+6*8] == 2){
-		states1[1+6*8] = states1[1+6*8]-1;
-		if(states1[1+6*8]==-1){
-			states1[1+6*8]=3
+	if(states1[3+6*8] == 0 || states1[3+6*8] == 2){
+		states1[3+6*8] = states1[3+6*8]-1;
+		if(states1[3+6*8]==-1){
+			states1[3+6*8]=3
 		}
 	}
 }
