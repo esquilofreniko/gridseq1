@@ -90,10 +90,13 @@ function play(count){
       leds1[i+(count*8)] = 2;
     } else if(leds1[i+(count*8)]>=4){
       probmath[i] = leds1[i+(count*8)]-2; // 0 2 4 6 8 10
-      outlet(0,"trig",i);
-      outlet(1,probmath);
-      oldtrigledval = leds1[i+(count*8)];
-      leds1[i+(count*8)] = 15;
+      var rand = Math.random()*10;
+      if(probmath[i]>rand){
+        outlet(0,"trig",i);
+        oldtrigledval = leds1[i+(count*8)];
+        leds1[i+(count*8)] = 15;
+        outlet(1,probmath);
+      }
     }
 
   }
