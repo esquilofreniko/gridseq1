@@ -18,9 +18,12 @@ var nmxl;
 var states1 = new Array(64);
 var leds1 = new Array(64);
 var leds2 = new Array(64);
+var genrand = new Array(64);
 var octs = new Array(8);
 var probs = new Array(8);
 var fills = new Array(8);
+var modes1 = new Array(8);
+var modes2 = new Array(8);
 var probmath = new Array(8);
 var probrand  = new Array(8);
 var outs  = new Array(8);
@@ -32,11 +35,14 @@ function clear() {
    states1[i] = 0;
    leds1[i] = 0;
    leds2[i] = 0;
+	 genrand[i]=5;
   }
   for(var i=0;i<8;i++){
-   probs[i] = 2;
-	 fills[i] = 2;
+   probs[i] = 5;
+	 fills[i] = 1;
 	 octs[i] = 0;
+	 modes1[i] = 0;
+	 modes2[i] = 5;
   }
   redraw();
 }
@@ -70,24 +76,24 @@ function key(x,y,z){
 	  }
 	}
 	if(states1[0+(6*8)]==1 || states1[0+(6*8)]==3){
-		octavemenu(xl,y);
-	}
-	if(states1[1+(6*8)]==1 || states1[1+(6*8)]==3){
-		clockmenu(xl,y);
-	}
-	if(states1[2+(6*8)]==1 || states1[2+(6*8)]==3){
-		probabilitymenu(xl,y);
-	}
-	if(states1[3+(6*8)]==1 || states1[3+(6*8)]==3){
 		sfmxl = states1[2+6*8];
 		fillmenu(xl,y);
+	}
+	if(states1[1+(6*8)]==1 || states1[1+(6*8)]==3){
+		probabilitymenu(xl,y);
+	}
+	if(states1[2+(6*8)]==1 || states1[2+(6*8)]==3){
+		clockmenu(xl,y);
+	}
+	if(states1[4+(6*8)]==1 || states1[4+(6*8)]==3){
+		octavemenu(xl,y);
 	}
 	if(states1[7+(6*8)]==1 || states1[7+(6*8)]==3){
 		modemenu(xl,y);
 	}
   redraw();
-  outlet(1,outs);
-	outlet(2,fills);
+  outlet(1,modes1);
+	outlet(2,modes2);
 }
 
 function statechanger(xl,y){
@@ -104,6 +110,13 @@ function statechanger(xl,y){
   if(leds1[xl+y*8] ==2){
     leds1[xl+y*8] = 0;
   }
+}
+
+function leds1map(xl,i){
+	leds1[xl + i*8] = (states1[xl+(i*8)])*(probs[xl])+2;
+	if(leds1[xl + i*8] ==2){
+		leds1[xl + i*8] = 0;
+	}
 }
 
 function ledstatemenu(){
@@ -141,17 +154,16 @@ function notemenu(nxl,y){
 
 function octavemenu(xl,y){
 	for(var i=0;i<8;i++){
-    for(var j=0;j<8;j++){
+    for(var j=0;j<6;j++){
+      leds2[i+j*8]=5;
+		}
+		for(var j=6;j>=7;j++){
       leds2[i+j*8]=0;
 		}
+		leds2[i+((5-(octs[i]/12))*8)]=10;
 	}
-}
-
-function modemenu(xl,y){
-	for(var i=0;i<8;i++){
-    for(var j=0;j<8;j++){
-      leds2[i+j*8]=0;
-		}
+	if(y<=5){
+		octs[xl]= 60 - (y*12);
 	}
 }
 
@@ -185,10 +197,10 @@ function probabilitymenu(xl,y){
 function fillmenu(xl,y){
 	var fillnumb, fillrand;
 	for(var i=0;i<8;i++){
-    for(var j=0;j<5;j++){
+    for(var j=0;j<6;j++){
       leds2[i+j*8]=5;
 		}
-		for(var j=5;j<7;j++){
+		for(var j=6;j>=7;j++){
       leds2[i+j*8]=0;
 		}
 		for(var j=0;j<5-fills[i];j++){
@@ -266,27 +278,76 @@ function fillmenu(xl,y){
 			leds1map(xl,i);
 		}
 	}
-	if(states1[3+6*8] == 0 || states1[3+6*8] == 2){
-		states1[3+6*8] = states1[3+6*8]-1;
-		if(states1[3+6*8]==-1){
-			states1[3+6*8]=3
+	if(states1[0+6*8] == 0 || states1[0+6*8] == 2){
+		states1[0+6*8] = states1[0+6*8]-1;
+		if(states1[0+6*8]==-1){
+			states1[0+6*8]=3
 		}
 	}
 }
 
-function leds1map(xl,i){
-	leds1[xl + i*8] = (states1[xl+(i*8)])*(probs[xl])+2;
-	if(leds1[xl + i*8] ==2){
-		leds1[xl + i*8] = 0;
+function modemenu(xl,y){
+	for(var i=0;i<8;i++){
+		for(var j=0;j<2;j++){
+			leds2[i+j*8]=4;
+		}
+		leds2[i+2*8]=0;
+		for(var j=3;j<6;j++){
+			leds2[i+j*8]=4;
+		}
+		leds2[i+(modes1[i]*8)]=10;
+		leds2[i+(modes2[i]*8)]=10;
+	}
+	if(y<=1){
+		modes1[xl]= y;
+	}
+	if(y<=5&&y>=3){
+		modes2[xl]= y;
 	}
 }
 
 function play(count){
+	//modes1 0 - normal / 1 - solo
+	//modes2 3 - loop / 4 - morph / 5 - generative
   count %= 8;
-  var old = (count-1);
-  if (old == -1){
-    old = 7;
-  }
+	var old = (count-1);
+	if (old == -1){
+		old = 7;
+	}
+	if(count == 0){
+		for(var i=0;i<8;i++){
+			//loop
+			if(modes2[i]==3){
+			}
+			//morph
+			else if(modes2[i]==4){
+			}
+			//generative
+			else if(modes2[i]==5){
+				for(var j=0;j<8;j++){
+					genrand[i+j*8] = Math.random()*10;
+					if(fills[i]*2>=genrand[i+j*8]){
+						if(states1[i+j*8] == 0 || states1[i+j*8] == 2){
+							states1[i+j*8] = 2;
+						}
+						if(states1[i+j*8] == 1 || states1[i+j*8] == 3){
+							states1[i+j*8] = 1;
+						}
+						leds1map(i,j);
+					}
+					if(fills[i]*2<=genrand[i+j*8]){
+						if(states1[i+j*8] == 0 || states1[i+j*8] == 2){
+							states1[i+j*8] = 0;
+						}
+						else if(states1[i+j*8] == 0 || states1[i+j*8] == 2){
+							states1[i+j*8] = 3;
+						}
+						leds1map(i,j);
+					}
+				}
+			}
+		}
+	}
   for(var i=0;i<8;i++){
     if(leds1[i+(old*8)]<4){
       leds1[i+(old*8)] = 0;
@@ -301,7 +362,7 @@ function play(count){
       probmath[i] = leds1[i+(count*8)]-2; // 0 2 4 6 8 10
       probrand[i] = Math.random()*10;
       if(probmath[i]>probrand[i]){
-        outlet(0,"trig",outs[i]);
+        outlet(0,"trig",(outs[i]+octs[i]));
         leds1[i+(count*8)] = 15;
       }
     }
