@@ -16,7 +16,7 @@ function clear() {
    states1[i] = 0;
    leds1[i] = 0;
    leds2[i] = 0;
-   probs[i] = 1;
+   probs[i] = 2;
   }
   redraw();
 }
@@ -56,12 +56,15 @@ function key(x,y,z){
       probs[xl]=5-y;
     }
     for(var i=0;i<8;i++){
-      for(var j=4;j>=0;j--){
+      for(var j=4;j>=5-probs[i];j--){
         leds2[i+j*8]=(probs[i]*2+2);
         if(leds2[i+j*8] ==2){
           leds2[i+j*8] = 0;
         }
       }
+      for(var j=0;j<=4-probs[i];j++){
+        leds2[i+j*8]=0;
+        }
     }
   }
   redraw();

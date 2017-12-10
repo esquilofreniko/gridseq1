@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 1024.0, 85.0, 439.0, 920.0 ],
+		"rect" : [ 1024.0, 85.0, 859.0, 920.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -45,7 +45,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 88.0, 147.0, 50.0, 22.0 ],
 					"style" : "",
-					"text" : "8 7 0"
+					"text" : "14 7 0"
 				}
 
 			}
@@ -195,9 +195,9 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 154.0, 325.0, 87.0, 119.0 ],
+					"patching_rect" : [ 154.0, 325.0, 89.0, 119.0 ],
 					"style" : "",
-					"text" : "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"
+					"text" : "2 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 2 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 0 0 0 0 2 0 0 0 2 0 0 2 0 0 0 0 0 0 2 0 0 0 0 2 0 0 0 0 0 2 2"
 				}
 
 			}
@@ -224,7 +224,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 66.0, 287.0, 106.0, 36.0 ],
 					"style" : "",
-					"text" : "/monome/grid/led/level/set 15 7 0"
+					"text" : "/monome/grid/led/level/set 15 7 8"
 				}
 
 			}
@@ -237,7 +237,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 178.0, 287.0, 44.0, 22.0 ],
 					"style" : "",
-					"text" : "0"
+					"text" : "2"
 				}
 
 			}
