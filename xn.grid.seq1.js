@@ -16,7 +16,6 @@ function delayThis(a,b){
 
 var ledstate=1;
 var nmxl;
-var sfmxl;
 
 var states1 = new Array(64);
 var leds1 = new Array(64);
@@ -149,9 +148,7 @@ function notemenu(nxl,y){
 }
 
 function fillmenu(xl,y){
-	if(y==6&&xl==1){
-		sfmxl = states1[1+6*8];
-	}
+	var fillnumb, fillrand;
 	for(var i=0;i<8;i++){
     for(var j=0;j<8;j++){
       leds2[i+j*8]=0;
@@ -166,16 +163,80 @@ function fillmenu(xl,y){
 	if(y==0){
 		for(var i=0;i<8;i++){
 			states1[xl+i*8] = 2;
-			leds1[xl + i*8] = (states1[xl+(i*8)])*(probs[xl])+2;
+			leds1map(xl,i);
+		}
+	}
+	if(y==1){
+		for(var i=0;i<8;i++){
+			fillrand = Math.random()*10;
+			fillnumb = 8;
+			if(fillnumb>fillrand){
+				states1[xl+i*8] = 2;
+				leds1map(xl,i);
+			} else if(fillnumb<=fillrand){
+				states1[xl+i*8] = 0;
+				leds1map(xl,i);
+			}
+		}
+	}
+	if(y==2){
+		for(var i=0;i<8;i++){
+			fillrand = Math.random()*10;
+			fillnumb = 6;
+			if(fillnumb>fillrand){
+				states1[xl+i*8] = 2;
+				leds1map(xl,i);
+			} else if(fillnumb<=fillrand){
+				states1[xl+i*8] = 0;
+				leds1map(xl,i);
+			}
+		}
+	}
+	if(y==3){
+		for(var i=0;i<8;i++){
+			fillrand = Math.random()*10;
+			fillnumb = 4;
+			if(fillnumb>fillrand){
+				states1[xl+i*8] = 2;
+				leds1map(xl,i);
+			} else if(fillnumb<=fillrand){
+				states1[xl+i*8] = 0;
+				leds1map(xl,i);
+			}
+		}
+	}
+	if(y==4){
+		for(var i=0;i<8;i++){
+			fillrand = Math.random()*10;
+			fillnumb = 2;
+			if(fillnumb>fillrand){
+				states1[xl+i*8] = 2;
+				leds1map(xl,i);
+			} else if(fillnumb<=fillrand){
+				states1[xl+i*8] = 0;
+				leds1map(xl,i);
+			}
 		}
 	}
 	if(y==5){
 		for(var i=0;i<8;i++){
 			states1[xl+i*8] = 0;
-			leds1[xl + i*8] = (states1[xl+(i*8)])*(probs[xl])+2;
+			leds1map(xl,i);
 		}
 	}
-	states1[1+6*8] = sfmxl;
+	if(states1[1+6*8] == 0 || states1[1+6*8] == 2){
+		states1[1+6*8] = states1[1+6*8]-1;
+		if(states1[1+6*8]==-1){
+			states1[1+6*8]=3
+		}
+	}
+}
+
+function leds1map(xl,i){
+	leds1[xl + i*8] = (states1[xl+(i*8)])*(probs[xl])+2;
+	if(leds1[xl + i*8] ==2){
+		leds1[xl + i*8] = 0;
+	}
 }
 
 function play(count){
