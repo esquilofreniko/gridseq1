@@ -63,11 +63,14 @@ function key(x,y,z){
   if(states1[0+(6*8)]==1 || states1[0+(6*8)]==3){
     probabilitymenu(xl,y);
   }
-  if(states1[7+(6*8)]==1 || states1[7+(6*8)]==3){
-      modemenu(xl,y);
-  }
+	for(var i=0;i<8;i++){
+		if(states1[i+(7*8)]==1 || states1[i+(7*8)]==3){
+				var nxl = xl;
+	      notemenu(nxl,y);
+	  }
+	}
   redraw();
-  outlet(1,states1);
+  outlet(1,outs);
 }
 
 function statechanger(xl,y){
@@ -120,7 +123,11 @@ function probabilitymenu(xl,y){
   }
 }
 
-function modemenu(xl,y){
+function notemenu(nxl,y){
+		if(y<=5){
+			outs[nxl]=nxl+y*8;
+		}
+	}
   for(var i=0;i<8;i++){
     for(var j=0;j<8;j++){
       leds2[i+j*8]=0;
