@@ -15,6 +15,8 @@ function delayThis(a,b){
 }
 
 var ledstate=1;
+var nmxl;
+var sfmxl;
 
 var states1 = new Array(64);
 var leds1 = new Array(64);
@@ -45,33 +47,37 @@ function key(x,y,z){
     statechanger(xl,y);
   }
   if (ledstate==2){
-    if(y>5&&xl>=0){
+    if(y>=6&&xl>=0){
       var changer1=xl;
       if(xl == changer1){
         statechanger(xl,y);
         }
       }
   }
-  if(y>5&&xl>=0){
+  if(y>=6&&xl>=0){
     if(states1[xl + y*8] == 0 || states1[xl + y*8] == 2){
       ledstate=1;
     }else if(states1[xl + y*8] == 1 || states1[xl + y*8] == 3){
       delayThis('ledstatemenu()',500)
     }
   }
-  //probability
-  if(states1[0+(6*8)]==1 || states1[0+(6*8)]==3){
-    probabilitymenu(xl,y);
-  }
+  //menus
 	for(var i=0;i<8;i++){
 		if(states1[i+(7*8)]==1 || states1[i+(7*8)]==3){
 				var nxl = xl;
 	      notemenu(nxl,y);
 	  }
 	}
+	if(states1[0+(6*8)]==1 || states1[0+(6*8)]==3){
+		probabilitymenu(xl,y);
+	}
+	if(states1[1+(6*8)]==1 || states1[1+(6*8)]==3){
+		sfmxl = states1[1+6*8];
+		fillmenu(xl,y);
+	}
   redraw();
   outlet(1,outs);
-	outlet(2,nxl);
+	outlet(2,xl);
 }
 
 function statechanger(xl,y){
@@ -124,15 +130,16 @@ function probabilitymenu(xl,y){
   }
 }
 
-var nmxl;
-
 function notemenu(nxl,y){
 	if(y==7){
 		nmxl = nxl;
 	}
 	for(var i=0;i<8;i++){
-    for(var j=0;j<8;j++){
-      leds2[i+j*8]=0;
+    for(var j=0;j<6;j++){
+      leds2[i+j*8]=2;
+		}
+		for(var j=0;j<2;j++){
+			leds2[i+(j+6)*8]=0;
 		}
 	}
 	if(y<=5){
@@ -141,6 +148,35 @@ function notemenu(nxl,y){
 	leds2[outs[nmxl]-1]=10;
 }
 
+function fillmenu(xl,y){
+	if(y==6&&xl==1){
+		sfmxl = states1[1+6*8];
+	}
+	for(var i=0;i<8;i++){
+    for(var j=0;j<8;j++){
+      leds2[i+j*8]=0;
+		}
+		leds2[i]=14;
+		leds2[i+1*8]=12;
+		leds2[i+2*8]=8;
+		leds2[i+3*8]=6;
+		leds2[i+4*8]=4;
+		leds2[i+5*8]=0;
+	}
+	if(y==0){
+		for(var i=0;i<8;i++){
+			states1[xl+i*8] = 2;
+			leds1[xl + i*8] = (states1[xl+(i*8)])*(probs[xl])+2;
+		}
+	}
+	if(y==5){
+		for(var i=0;i<8;i++){
+			states1[xl+i*8] = 0;
+			leds1[xl + i*8] = (states1[xl+(i*8)])*(probs[xl])+2;
+		}
+	}
+	states1[1+6*8] = sfmxl;
+}
 
 function play(count){
   count %= 8;
