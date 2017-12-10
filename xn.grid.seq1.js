@@ -34,7 +34,7 @@ function key(x,y,z){
     }
   }
   if (ledstate==2){
-    if(y==7){
+    if(y>5){
       var changer1=xl;
       if(xl == changer1){
         states1[xl + y*8] = (states1[xl + y*8] + 1)%4;
@@ -45,15 +45,16 @@ function key(x,y,z){
         }
       }
   }
-  if(y==7){
+  if(y>5){
     if(states1[xl + y*8] == 0 || states1[xl + y*8] == 2){
       ledstate = 1;
     }else if(states1[xl + y*8] == 1 || states1[xl + y*8] == 3){
       ledstate = 2;
     }
   }
-  if(ledstate==2){
-    if(y<6){
+  if(states1[0+(7*8)]==1 || states1[0+(7*8)]==3){
+    //probability
+    if(y<=5){
       probs[xl]=5-y;
     }
     for(var i=0;i<8;i++){
