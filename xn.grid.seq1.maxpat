@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 1024.0, 85.0, 254.0, 920.0 ],
+		"rect" : [ 1024.0, 85.0, 461.0, 920.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -45,7 +45,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 88.0, 147.0, 50.0, 22.0 ],
 					"style" : "",
-					"text" : "9 4 0"
+					"text" : "10 3 0"
 				}
 
 			}
@@ -190,14 +190,13 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-8",
-					"linecount" : 8,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 152.0, 342.0, 89.0, 119.0 ],
+					"patching_rect" : [ 152.0, 342.0, 89.0, 22.0 ],
 					"style" : "",
-					"text" : "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 2 2 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"
+					"text" : "3 3 3 3 3 3 3 3"
 				}
 
 			}
@@ -224,7 +223,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 66.0, 287.0, 106.0, 36.0 ],
 					"style" : "",
-					"text" : "/monome/grid/led/level/set 15 7"
+					"text" : "/monome/grid/led/level/set 15 7 0"
 				}
 
 			}
@@ -237,7 +236,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 163.25, 263.0, 44.0, 22.0 ],
 					"style" : "",
-					"text" : "1"
+					"text" : "2"
 				}
 
 			}
@@ -344,9 +343,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 376.0, 3.0, 87.0, 22.0 ],
+					"patching_rect" : [ 376.0, 3.0, 91.0, 22.0 ],
 					"style" : "",
-					"text" : "loadmess 250"
+					"text" : "loadmess 200"
 				}
 
 			}
@@ -411,7 +410,7 @@
 					"outlettype" : [ "bang" ],
 					"patching_rect" : [ 330.0, 67.0, 65.0, 22.0 ],
 					"style" : "",
-					"text" : "metro 250"
+					"text" : "metro 200"
 				}
 
 			}
@@ -530,6 +529,13 @@
 				"patchline" : 				{
 					"destination" : [ "obj-27", 0 ],
 					"source" : [ "obj-31", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-8", 1 ],
+					"source" : [ "obj-31", 1 ]
 				}
 
 			}
