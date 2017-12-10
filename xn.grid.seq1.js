@@ -28,6 +28,8 @@ var probmath = new Array(8);
 var probrand  = new Array(8);
 var outs  = new Array(8);
 outs = [1,2,3,4,5,6,7,8];
+var morphrand = new Array(8);
+var morphnum = new Array(8);
 
 function clear() {
   ledstate=1;
@@ -38,11 +40,13 @@ function clear() {
 	 genrand[i]=5;
   }
   for(var i=0;i<8;i++){
-   probs[i] = 5;
-	 fills[i] = 1;
+   probs[i] = 2;
+	 fills[i] = 2;
 	 octs[i] = 0;
 	 modes1[i] = 0;
-	 modes2[i] = 5;
+	 modes2[i] = 4;
+	 morphrand[i]=0;
+	 morphnum[i]=0;
   }
   redraw();
 }
@@ -92,8 +96,6 @@ function key(x,y,z){
 		modemenu(xl,y);
 	}
   redraw();
-  outlet(1,modes1);
-	outlet(2,modes2);
 }
 
 function statechanger(xl,y){
@@ -321,6 +323,29 @@ function play(count){
 			}
 			//morph
 			else if(modes2[i]==4){
+				morphnum[i] = Math.random()*8;
+				morphnum[i] = Math.floor(morphnum[i]);
+				morphrand[i] = Math.random()*10;
+				if(morphrand[i]<=fills[i]*2){
+					if(states1[i+morphnum[i]*8] == 0 || states1[i+morphnum[i]*8] == 2){
+						states1[i+morphnum[i]*8] = 2;
+					}
+					if(states1[i+morphnum[i]*8] == 1 || states1[i+morphnum[i]*8] == 3){
+						states1[i+morphnum[i]*8] = 1;
+					}
+					leds1map(i,morphnum[i])
+				}
+				if(morphrand[i]>=fills[i]*2){
+					if(states1[i+morphnum[i]*8] == 0 || states1[i+morphnum[i]*8] == 2){
+						states1[i+morphnum[i]*8] = 0;
+					}
+					if(states1[i+morphnum[i]*8] == 1 || states1[i+morphnum[i]*8] == 3){
+						states1[i+morphnum[i]*8] = 3;
+					}
+					leds1map(i,morphnum[i])
+				}
+				outlet(1,morphrand);
+				outlet(2,morphnum);
 			}
 			//generative
 			else if(modes2[i]==5){
