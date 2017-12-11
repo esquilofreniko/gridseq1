@@ -111,7 +111,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 6.0, 200.0, 50.0, 22.0 ],
 					"style" : "",
-					"text" : "15 6 0"
+					"text" : "8 7 0"
 				}
 
 			}
@@ -151,7 +151,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 11.0, 386.0, 106.0, 36.0 ],
 					"style" : "",
-					"text" : "/monome/grid/led/level/set 15 7"
+					"text" : "/monome/grid/led/level/set 15 7 0"
 				}
 
 			}
@@ -164,7 +164,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 119.0, 382.0, 44.0, 22.0 ],
 					"style" : "",
-					"text" : "5"
+					"text" : "6"
 				}
 
 			}
@@ -582,10 +582,6 @@
 
 			}
  ],
-		"parameters" : 		{
-
-		}
-,
 		"dependency_cache" : [ 			{
 				"name" : "serialosc.maxpat",
 				"bootpath" : "D:/Documents/Max 7/Library/Gridlock/new/MAX/VSerialOSC-2",

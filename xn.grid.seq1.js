@@ -93,13 +93,13 @@ function key(x, y, z) {
     clockmenu(xl, y);
   }
   if (states1[3 + (7 * 8)] == 1 || states1[2 + (7 * 8)] == 3) {
-    newmenu(xl, y);
+    lengthmenu(xl, y);
   }
   if (states1[4 + (7 * 8)] == 1 || states1[4 + (7 * 8)] == 3) {
-    octavemenu(xl, y);
+    scalesmenu(xl, y);
   }
   if (states1[5 + (7 * 8)] == 1 || states1[7 + (7 * 8)] == 3) {
-    newmenu(xl, y);
+    octavemenu(xl, y);
   }
   if (states1[6 + (7 * 8)] == 1 || states1[7 + (7 * 8)] == 3) {
     notemodemenu(xl, y);
@@ -268,6 +268,14 @@ function clockmenu(xl, y) {
   }
 }
 
+function lengthmenu(xl, y) {
+  for (var i = 0; i < 8; i++) {
+    for (var j = 0; j < 8; j++) {
+      leds2[i + j * 8] = 0;
+    }
+  }
+}
+
 function octavemenu(xl, y) {
   for (var i = 0; i < 8; i++) {
     for (var j = 0; j < 6; j++) {
@@ -283,7 +291,7 @@ function octavemenu(xl, y) {
   }
 }
 
-function newmenu(xl, y) {
+function scalesmenu(xl, y) {
   for (var i = 0; i < 8; i++) {
     for (var j = 0; j < 8; j++) {
       leds2[i + j * 8] = 0;
