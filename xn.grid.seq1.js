@@ -31,13 +31,12 @@ var outs = new Array(8);
 outs = [ 0, 1, 2, 3, 4, 5, 6, 7 ];
 var morphrand = new Array(8);
 var morphnum = new Array(8);
-var clocks = new Array(8);
+var divs = new Array(8);
 var modes2;
 var soloouts = [];
 var count = [];
 var countf = [];
 var old = [];
-var oldf = [];
 
 function clear() {
   ledstate = 1;
@@ -52,14 +51,13 @@ function clear() {
     probs[i] = 5;
     fills[i] = 1;
     octs[i] = 0;
-    modes1[i] = 0;
+    modes1[i] = 1;
     morphrand[i] = 0;
     morphnum[i] = 0;
-    clocks[i] = 3;
+    divs[i] = 1;
     count[i] = 0;
     countf[i] = 0;
     old[i] = 7;
-    oldf[i] = 7;
   }
   redraw();
 }
@@ -93,23 +91,23 @@ function key(x, y, z) {
     }
   }
   if (states1[0 + (7 * 8)] == 1 || states1[0 + (7 * 8)] == 3) {
-    sfmxl = states1[2 + 6 * 8];
-    fillmenu(xl, y);
+    divmenu(xl, y);
   }
   if (states1[1 + (7 * 8)] == 1 || states1[1 + (7 * 8)] == 3) {
-    probabilitymenu(xl, y);
+    sfmxl = states1[1 + (7 * 8)];
+    fillmenu(xl, y);
   }
   if (states1[2 + (7 * 8)] == 1 || states1[2 + (7 * 8)] == 3) {
-    clockmenu(xl, y);
+    probabilitymenu(xl, y);
   }
   if (states1[3 + (7 * 8)] == 1 || states1[3 + (7 * 8)] == 3) {
     lengthmenu(xl, y);
   }
   if (states1[4 + (7 * 8)] == 1 || states1[4 + (7 * 8)] == 3) {
-    scalesmenu(xl, y);
+    octavemenu(xl, y);
   }
   if (states1[5 + (7 * 8)] == 1 || states1[5 + (7 * 8)] == 3) {
-    octavemenu(xl, y);
+    scalesmenu(xl, y);
   }
   if (states1[6 + (7 * 8)] == 1 || states1[6 + (7 * 8)] == 3) {
     notemodemenu(xl, y);
@@ -118,7 +116,7 @@ function key(x, y, z) {
     modemenu(xl, y);
   }
   redraw();
-  outlet(1, clocks);
+  outlet(1, divs);
 }
 
 function statechanger(xl, y) {
@@ -159,6 +157,39 @@ function ledstatemenu() {
   redraw();
 }
 
+function divmenu(xl, y) {
+  if (y <= 5) {
+    divs[xl] = y + 1;
+    count[xl] = 0;
+    countf[xl] = 0;
+    for (var i = 0; i < 8; i++) {
+      if (leds1[xl + i * 8] < 4) {
+        leds1[xl + i * 8] = 0;
+      }
+    }
+  }
+  for (var i = 0; i < 8; i++) {
+    for (var j = 0; j < 8; j++) {
+      leds2[i + j * 8] = 0;
+    }
+  }
+  for (var i = 0; i < 8; i++) {
+    for (var j = 0; j < 6; j++) {
+      leds2[i + j * 8] = 6;
+    }
+    for (var j = 6; j >= 7; j++) {
+      leds2[i + j * 8] = 0;
+    }
+    for (var j = 0; j < divs[i] - 1; j++) {
+      leds2[i + j * 8] = 2;
+    }
+    leds2[i + ((divs[i] - 1) * 8)] = 10;
+    leds2[i + 5 * 8] = 2;
+    leds2[i + 6 * 8] = 0;
+    leds2[i + 7 * 8] = 0;
+  }
+}
+
 function fillmenu(xl, y) {
   var fillnumb, fillrand;
   for (var i = 0; i < 8; i++) {
@@ -172,6 +203,9 @@ function fillmenu(xl, y) {
       leds2[i + j * 8] = 0;
     }
     leds2[i + ((5 - fills[i]) * 8)] = 10;
+    leds2[i + 5 * 8] = 2;
+    leds2[i + 6 * 8] = 0;
+    leds2[i + 7 * 8] = 0;
   }
   if (y == 0) {
     fills[xl] = 5;
@@ -243,10 +277,10 @@ function fillmenu(xl, y) {
       leds1map(xl, i);
     }
   }
-  if (states1[0 + 7 * 8] == 0 || states1[0 + 7 * 8] == 2) {
-    states1[0 + 7 * 8] = states1[0 + 7 * 8] - 1;
-    if (states1[0 + 7 * 8] == -1) {
-      states1[0 + 7 * 8] = 3
+  if (states1[1 + 7 * 8] == 0 || states1[1 + 7 * 8] == 2) {
+    states1[1 + 7 * 8] = states1[1 + 7 * 8] - 1;
+    if (states1[1 + 7 * 8] == -1) {
+      states1[1 + 7 * 8] = 3
     }
   }
 }
@@ -265,40 +299,9 @@ function probabilitymenu(xl, y) {
     for (var j = 0; j <= 4 - probs[i]; j++) {
       leds2[i + j * 8] = 0;
     }
-    leds2[i + 5 * 8] = 0;
+    leds2[i + 5 * 8] = 2;
     leds2[i + 6 * 8] = 0;
-  }
-}
-
-// Maths.round(3.9999*100)/100
-
-function clockmenu(xl, y) {
-  if (y <= 5) {
-    clocks[xl] = y + 1;
-    count[xl] = 0;
-    countf[xl] = 0;
-    for (var i = 0; i < 8; i++) {
-      if (leds1[xl + i * 8] < 4) {
-        leds1[xl + i * 8] = 0;
-      }
-    }
-  }
-  for (var i = 0; i < 8; i++) {
-    for (var j = 0; j < 8; j++) {
-      leds2[i + j * 8] = 0;
-    }
-  }
-  for (var i = 0; i < 8; i++) {
-    for (var j = 0; j < 6; j++) {
-      leds2[i + j * 8] = 4;
-    }
-    for (var j = 6; j >= 7; j++) {
-      leds2[i + j * 8] = 0;
-    }
-    for (var j = 0; j < clocks[i] - 1; j++) {
-      leds2[i + j * 8] = 0;
-    }
-    leds2[i + ((clocks[i] - 1) * 8)] = 10;
+    leds2[i + 7 * 8] = 0;
   }
 }
 
@@ -383,7 +386,7 @@ function play() {
   var soloouts = [];
   var solorand;
   for (var i = 0; i < 8; i++) {
-    if (clocks[i] == 6) {
+    if (divs[i] == 6) {
       if (leds1[i + (old[i] * 8)] < 4) {
         leds1[i + (old[i] * 8)] = 0;
       } else if (leds1[i + (old[i] * 8)] >= 4) {
@@ -393,7 +396,7 @@ function play() {
         leds1[i + (count[i] * 8)] = 2;
       }
     } else {
-      countf[i] += 1 / clocks[i];
+      countf[i] += 1 / divs[i];
       countf[i] %= 8.0;
 
       count[i] = Math.floor(countf[i]);
