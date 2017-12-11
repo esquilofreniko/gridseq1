@@ -1,0 +1,14 @@
+Menus:
+if(y == 7){
+0: divs (nfixes)
+1: fills (done)
+2: prob (done)
+4: length (various)
+5: octaves (various)
+5: outmode
+6: notemode
+7: mode (done)
+}
+if(y == 6){
+all: note (various)
+}
