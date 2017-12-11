@@ -35,7 +35,7 @@ var count = [];
 var countf = [];
 var old = [];
 
-function clear() {
+function seq1clear() {
   ledstate = 1;
   modes2 = 4;
   for (var i = 0; i < 64; i++) {
@@ -59,60 +59,62 @@ function clear() {
   redraw();
 }
 
-function key(x, y, z) {
+function seq1key(x, y, z) {
   // xl is the x of left size
-  var xl = x - 8;
-  if (ledstate == 1) {
-    statechanger(xl, y);
-  }
-  if (ledstate == 2) {
-    if (y >= 6 && xl >= 0) {
-      var changer1 = xl;
-      if (xl == changer1) {
-        statechanger(xl, y);
+  if (x >= 8) {
+    var xl = x - 8;
+    if (ledstate == 1) {
+      statechanger(xl, y);
+    }
+    if (ledstate == 2) {
+      if (y >= 6 && xl >= 0) {
+        var changer1 = xl;
+        if (xl == changer1) {
+          statechanger(xl, y);
+        }
       }
     }
-  }
-  if (y >= 6 && xl >= 0) {
-    if (states1[xl + y * 8] == 0 || states1[xl + y * 8] == 2) {
-      ledstate = 1;
-    } else if (states1[xl + y * 8] == 1 || states1[xl + y * 8] == 3) {
-      delayThis('ledstatemenu()', 500)
+    if (y >= 6 && xl >= 0) {
+      if (states1[xl + y * 8] == 0 || states1[xl + y * 8] == 2) {
+        ledstate = 1;
+      } else if (states1[xl + y * 8] == 1 || states1[xl + y * 8] == 3) {
+        delayThis('ledstatemenu()', 500)
+      }
     }
-  }
-  // menus
-  for (var i = 0; i < 8; i++) {
-    if (states1[i + (6 * 8)] == 1 || states1[i + (6 * 8)] == 3) {
-      var nxl = xl;
-      notemenu(nxl, y);
+    // menus
+    for (var i = 0; i < 8; i++) {
+      if (states1[i + (6 * 8)] == 1 || states1[i + (6 * 8)] == 3) {
+        var nxl = xl;
+        notemenu(nxl, y);
+      }
     }
+    if (states1[0 + (7 * 8)] == 1 || states1[0 + (7 * 8)] == 3) {
+      divmenu(xl, y);
+    }
+    if (states1[1 + (7 * 8)] == 1 || states1[1 + (7 * 8)] == 3) {
+      sfmxl = states1[1 + (7 * 8)];
+      fillmenu(xl, y);
+    }
+    if (states1[2 + (7 * 8)] == 1 || states1[2 + (7 * 8)] == 3) {
+      probabilitymenu(xl, y);
+    }
+    if (states1[3 + (7 * 8)] == 1 || states1[3 + (7 * 8)] == 3) {
+      lengthmenu(xl, y);
+    }
+    if (states1[4 + (7 * 8)] == 1 || states1[4 + (7 * 8)] == 3) {
+      octavemenu(xl, y);
+    }
+    if (states1[5 + (7 * 8)] == 1 || states1[5 + (7 * 8)] == 3) {
+      scalesmenu(xl, y);
+    }
+    if (states1[6 + (7 * 8)] == 1 || states1[6 + (7 * 8)] == 3) {
+      notemodemenu(xl, y);
+    }
+    if (states1[7 + (7 * 8)] == 1 || states1[7 + (7 * 8)] == 3) {
+      modemenu(xl, y);
+    }
+    redraw();
   }
-  if (states1[0 + (7 * 8)] == 1 || states1[0 + (7 * 8)] == 3) {
-    divmenu(xl, y);
-  }
-  if (states1[1 + (7 * 8)] == 1 || states1[1 + (7 * 8)] == 3) {
-    sfmxl = states1[1 + (7 * 8)];
-    fillmenu(xl, y);
-  }
-  if (states1[2 + (7 * 8)] == 1 || states1[2 + (7 * 8)] == 3) {
-    probabilitymenu(xl, y);
-  }
-  if (states1[3 + (7 * 8)] == 1 || states1[3 + (7 * 8)] == 3) {
-    lengthmenu(xl, y);
-  }
-  if (states1[4 + (7 * 8)] == 1 || states1[4 + (7 * 8)] == 3) {
-    octavemenu(xl, y);
-  }
-  if (states1[5 + (7 * 8)] == 1 || states1[5 + (7 * 8)] == 3) {
-    scalesmenu(xl, y);
-  }
-  if (states1[6 + (7 * 8)] == 1 || states1[6 + (7 * 8)] == 3) {
-    notemodemenu(xl, y);
-  }
-  if (states1[7 + (7 * 8)] == 1 || states1[7 + (7 * 8)] == 3) {
-    modemenu(xl, y);
-  }
-  redraw();
 }
 
 function statechanger(xl, y) {
@@ -378,7 +380,7 @@ function notemenu(nxl, y) {
   leds2[outs[nmxl]] = 10;
 }
 
-function play() {
+function seq1play() {
   var soloouts = [];
   var solorand;
   for (var i = 0; i < 8; i++) {
