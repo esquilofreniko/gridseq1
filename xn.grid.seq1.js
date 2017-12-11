@@ -34,7 +34,7 @@ var soloouts = [];
 
 function clear() {
   ledstate=1;
-	modes2= 5;
+	modes2= 4;
   for(var i = 0; i<64;i++){
    states1[i] = 0;
    leds1[i] = 0;
@@ -42,10 +42,10 @@ function clear() {
 	 genrand[i]=5;
   }
   for(var i=0;i<8;i++){
-   probs[i] = 5;
+   probs[i] = 3;
 	 fills[i] = 1;
 	 octs[i] = 0;
-	 modes1[i] = 2;
+	 modes1[i] = 1;
 	 morphrand[i]=0;
 	 morphnum[i]=0;
   }
