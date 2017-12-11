@@ -75,34 +75,34 @@ function key(x,y,z){
   }
   //menus
 	for(var i=0;i<8;i++){
-		if(states1[i+(7*8)]==1 || states1[i+(7*8)]==3){
+		if(states1[i+(6*8)]==1 || states1[i+(6*8)]==3){
 				var nxl = xl;
 	      notemenu(nxl,y);
 	  }
 	}
-	if(states1[0+(6*8)]==1 || states1[0+(6*8)]==3){
+	if(states1[0+(7*8)]==1 || states1[0+(7*8)]==3){
 		sfmxl = states1[2+6*8];
 		fillmenu(xl,y);
 	}
-	if(states1[1+(6*8)]==1 || states1[1+(6*8)]==3){
+	if(states1[1+(7*8)]==1 || states1[1+(7*8)]==3){
 		probabilitymenu(xl,y);
 	}
-	if(states1[2+(6*8)]==1 || states1[2+(6*8)]==3){
+	if(states1[2+(7*8)]==1 || states1[2+(7*8)]==3){
 		clockmenu(xl,y);
 	}
-	if(states1[3+(6*8)]==1 || states1[2+(6*8)]==3){
+	if(states1[3+(7*8)]==1 || states1[2+(7*8)]==3){
 		newmenu(xl,y);
 	}
-	if(states1[4+(6*8)]==1 || states1[4+(6*8)]==3){
+	if(states1[4+(7*8)]==1 || states1[4+(7*8)]==3){
 		octavemenu(xl,y);
 	}
-	if(states1[5+(6*8)]==1 || states1[7+(6*8)]==3){
+	if(states1[5+(7*8)]==1 || states1[7+(7*8)]==3){
 		newmenu(xl,y);
 	}
-	if(states1[6+(6*8)]==1 || states1[7+(6*8)]==3){
+	if(states1[6+(7*8)]==1 || states1[7+(7*8)]==3){
 		notemodemenu(xl,y);
 	}
-	if(states1[7+(6*8)]==1 || states1[7+(6*8)]==3){
+	if(states1[7+(7*8)]==1 || states1[7+(7*8)]==3){
 		modemenu(xl,y);
 	}
   redraw();
@@ -146,24 +146,6 @@ function ledstatemenu(){
       }
     }
   }
-}
-
-function notemenu(nxl,y){
-	if(y==7){
-		nmxl = nxl;
-	}
-	for(var i=0;i<8;i++){
-		for(var j=0;j<6;j++){
-			leds2[i+j*8]=2;
-		}
-		for(var j=0;j<2;j++){
-			leds2[i+(j+6)*8]=0;
-		}
-	}
-	if(y<=5){
-		outs[nmxl]=(nxl+y*8);
-	}
-	leds2[outs[nmxl]]=10;
 }
 
 function fillmenu(xl,y){
@@ -250,10 +232,10 @@ function fillmenu(xl,y){
 			leds1map(xl,i);
 		}
 	}
-	if(states1[0+6*8] == 0 || states1[0+6*8] == 2){
-		states1[0+6*8] = states1[0+6*8]-1;
-		if(states1[0+6*8]==-1){
-			states1[0+6*8]=3
+	if(states1[0+7*8] == 0 || states1[0+7*8] == 2){
+		states1[0+7*8] = states1[0+7*8]-1;
+		if(states1[0+7*8]==-1){
+			states1[0+7*8]=3
 		}
 	}
 }
@@ -334,6 +316,24 @@ function modemenu(xl,y){
 	if(y>=4&&y<=5){
 		modes2= y;
 	}
+}
+
+function notemenu(nxl,y){
+	if(y==6){
+		nmxl = nxl;
+	}
+	for(var i=0;i<8;i++){
+		for(var j=0;j<6;j++){
+			leds2[i+j*8]=2;
+		}
+		for(var j=0;j<2;j++){
+			leds2[i+(j+6)*8]=0;
+		}
+	}
+	if(y<=5){
+		outs[nmxl]=(nxl+y*8);
+	}
+	leds2[outs[nmxl]]=10;
 }
 
 function play(count){

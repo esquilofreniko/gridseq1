@@ -38,18 +38,6 @@
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
 				"box" : 				{
-					"id" : "obj-15",
-					"maxclass" : "newobj",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 223.0, 388.0, 34.0, 22.0 ],
-					"style" : "",
-					"text" : "print"
-				}
-
-			}
-, 			{
-				"box" : 				{
 					"id" : "obj-13",
 					"maxclass" : "ezdac~",
 					"numinlets" : 2,
@@ -161,7 +149,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 163.0, 497.0, 50.0, 22.0 ],
 					"style" : "",
-					"text" : "5"
+					"text" : "4"
 				}
 
 			}
@@ -227,7 +215,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 6.0, 200.0, 50.0, 22.0 ],
 					"style" : "",
-					"text" : "9 6 0"
+					"text" : "15 7 0"
 				}
 
 			}
@@ -240,7 +228,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 47.5, 486.0, 89.0, 22.0 ],
 					"style" : "",
-					"text" : "2 2 2 2 2 2 2 2"
+					"text" : "1 1 1 1 1 1 1 1"
 				}
 
 			}
@@ -267,7 +255,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 11.0, 386.0, 106.0, 36.0 ],
 					"style" : "",
-					"text" : "/monome/grid/led/level/set 15 7 0"
+					"text" : "/monome/grid/led/level/set 15 7 2"
 				}
 
 			}
@@ -280,7 +268,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 119.0, 382.0, 44.0, 22.0 ],
 					"style" : "",
-					"text" : "7"
+					"text" : "3"
 				}
 
 			}
@@ -595,14 +583,6 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-15", 0 ],
-					"order" : 0,
-					"source" : [ "obj-27", 1 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
 					"destination" : [ "obj-48", 0 ],
 					"order" : 0,
 					"source" : [ "obj-27", 2 ]
@@ -620,7 +600,6 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-86", 1 ],
-					"order" : 1,
 					"source" : [ "obj-27", 1 ]
 				}
 
