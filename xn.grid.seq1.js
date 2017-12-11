@@ -371,6 +371,8 @@ function notemenu(nxl, y) {
 }
 
 function play() {
+  var soloouts = [];
+  var solorand;
   for (var i = 0; i < 8; i++) {
     countf[i] += 1 / clocks[i];
     countf[i] %= 8;
@@ -378,7 +380,6 @@ function play() {
     count[i] %= 8;
     if (countf[i] <= count[i]) {
       old[i] = (count[i] - 1);
-      var soloouts = [];
       if (old[i] == -1) {
         old[i] = 7;
       }
@@ -468,14 +469,13 @@ function play() {
     }
   }
   if (modes2 == 5) {
-    var solorand;
     solorand = (Math.floor(Math.random() * soloouts.length));
     if (soloouts.length > 0) {
       outlet(0, "trig", soloouts[solorand]);
-      leds1[soloouts[solorand] + (count * 8)] = 15;
+      leds1[soloouts[solorand] + (count[solorand] * 8)] = 15;
     }
   }
-  outlet(1, countf);
+  outlet(1, soloouts);
   outlet(2, count);
   redraw();
 }
