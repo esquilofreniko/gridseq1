@@ -28,7 +28,7 @@ var modes1 = new Array(8);
 var probmath = new Array(8);
 var probrand = new Array(8);
 var outs = new Array(8);
-outs = [0, 1, 2, 3, 4, 5, 6, 7];
+outs = [ 0, 1, 2, 3, 4, 5, 6, 7 ];
 var morphrand = new Array(8);
 var morphnum = new Array(8);
 var modes2;
@@ -354,22 +354,22 @@ function play(count) {
         morphrand[i] = Math.random() * 10;
         if (morphrand[i] <= fills[i] * 2) {
           if (states1[i + morphnum[i] * 8] == 0 ||
-            states1[i + morphnum[i] * 8] == 2) {
+              states1[i + morphnum[i] * 8] == 2) {
             states1[i + morphnum[i] * 8] = 2;
           }
           if (states1[i + morphnum[i] * 8] == 1 ||
-            states1[i + morphnum[i] * 8] == 3) {
+              states1[i + morphnum[i] * 8] == 3) {
             states1[i + morphnum[i] * 8] = 1;
           }
           leds1map(i, morphnum[i])
         }
         if (morphrand[i] >= fills[i] * 2) {
           if (states1[i + morphnum[i] * 8] == 0 ||
-            states1[i + morphnum[i] * 8] == 2) {
+              states1[i + morphnum[i] * 8] == 2) {
             states1[i + morphnum[i] * 8] = 0;
           }
           if (states1[i + morphnum[i] * 8] == 1 ||
-            states1[i + morphnum[i] * 8] == 3) {
+              states1[i + morphnum[i] * 8] == 3) {
             states1[i + morphnum[i] * 8] = 3;
           }
           leds1map(i, morphnum[i])
