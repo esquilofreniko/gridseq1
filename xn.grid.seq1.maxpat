@@ -143,14 +143,13 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-7",
-					"linecount" : 2,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 163.0, 497.0, 50.0, 36.0 ],
+					"patching_rect" : [ 163.0, 497.0, 50.0, 22.0 ],
 					"style" : "",
-					"text" : "4 4 4 4 4 4 4 4"
+					"text" : "5"
 				}
 
 			}
@@ -229,7 +228,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 47.5, 486.0, 89.0, 22.0 ],
 					"style" : "",
-					"text" : "2 2 2 2 2 2 2 2"
+					"text" : "1 1 1 1 1 1 1 1"
 				}
 
 			}
@@ -269,7 +268,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 108.25, 362.0, 44.0, 22.0 ],
 					"style" : "",
-					"text" : "0"
+					"text" : "3"
 				}
 
 			}

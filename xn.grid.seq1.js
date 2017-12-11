@@ -23,18 +23,18 @@ var octs = new Array(8);
 var probs = new Array(8);
 var fills = new Array(8);
 var modes1 = new Array(8);
-var modes2 = new Array(8);
 var probmath = new Array(8);
 var probrand  = new Array(8);
 var outs  = new Array(8);
 outs = [0,1,2,3,4,5,6,7];
 var morphrand = new Array(8);
 var morphnum = new Array(8);
-var solorand = new Array(8);
-var soloouts = new Array(8);
+var modes2;
+var soloouts = [];
 
 function clear() {
   ledstate=1;
+	modes2= 5;
   for(var i = 0; i<64;i++){
    states1[i] = 0;
    leds1[i] = 0;
@@ -42,15 +42,12 @@ function clear() {
 	 genrand[i]=5;
   }
   for(var i=0;i<8;i++){
-   probs[i] = 3;
+   probs[i] = 5;
 	 fills[i] = 1;
 	 octs[i] = 0;
-	 modes1[i] = 1;
-	 modes2[i] = 4;
+	 modes1[i] = 2;
 	 morphrand[i]=0;
 	 morphnum[i]=0;
-	 solorand[i]=0;
-	 soloouts[i]=0;
   }
   redraw();
 }
@@ -332,12 +329,10 @@ function modemenu(xl,y){
 		}
 		leds2[i+3*8]=0;
 		leds2[i+(modes1[i]*8)]=10;
-		leds2[i+(modes2[i]*8)]=10;
+		leds2[i+(modes2*8)]=10;
 	}
 	if(y>=4&&y<=5){
-		for(var i=0;i<8;i++){
-			modes2[i]= y;
-		}
+		modes2= y;
 	}
 }
 
@@ -409,11 +404,12 @@ function play(count){
       leds1[i+(old*8)] = probs[i]*2+2;
     }
   }
+	var soloouts = [];
   for(var i=0;i<8;i++){
 		if(leds1[i+(count*8)]<4){
 			leds1[i+(count*8)] = 2;
 		}
-		if(modes2[i]==4){
+		if(modes2==4){
 			//normal
 			if(leds1[i+(count*8)]>=4){
 	      probmath[i] = leds1[i+(count*8)]-2; // 0 2 4 6 8 10
@@ -424,20 +420,25 @@ function play(count){
 	      }
 	    }
 		}
-		if(modes2[i]==5){
+		if(modes2==5){
 			//solomode
 			if(leds1[i+(count*8)]>=4){
-	      probmath[i] = leds1[i+(count*8)]-2; // 0 2 4 6 8 10
+	      probmath[i] = (leds1[i+(count*8)]-2); // 0 2 4 6 8 10
 	      probrand[i] = Math.random()*10;
 	      if(probmath[i]>probrand[i]){
-					soloouts[i] = 1;
-	        outlet(0,"trig",(outs[i]+octs[i]));
-	        leds1[i+(count*8)] = 15;
+					soloouts.push(i);
 	      }
 	    }
 		}
-  }
-
+	}
+	if(modes2==5){
+		var solorand;
+		solorand = (Math.floor(Math.random()*soloouts.length));
+		if(soloouts.length>0){
+			outlet(0,"trig",soloouts[solorand]);
+			leds1[soloouts[solorand]+(count*8)] = 15;
+		}
+	}
   redraw();
 }
 
