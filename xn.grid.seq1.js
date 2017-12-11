@@ -40,7 +40,7 @@ function clear() {
 	 genrand[i]=5;
   }
   for(var i=0;i<8;i++){
-   probs[i] = 2;
+   probs[i] = 3;
 	 fills[i] = 1;
 	 octs[i] = 0;
 	 modes1[i] = 0;
@@ -88,6 +88,9 @@ function key(x,y,z){
 	}
 	if(states1[2+(6*8)]==1 || states1[2+(6*8)]==3){
 		clockmenu(xl,y);
+	}
+	if(states1[3+(6*8)]==1 || states1[2+(6*8)]==3){
+		newmenu(xl,y);
 	}
 	if(states1[4+(6*8)]==1 || states1[4+(6*8)]==3){
 		octavemenu(xl,y);
