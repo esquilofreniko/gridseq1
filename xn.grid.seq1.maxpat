@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 1024.0, 85.0, 450.0, 920.0 ],
+		"rect" : [ 1058.0, 85.0, 820.0, 920.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -37,6 +37,45 @@
 		"style" : "",
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
+				"box" : 				{
+					"id" : "obj-17",
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 306.0, 218.0, 49.0, 22.0 ],
+					"style" : "",
+					"text" : "mpplay"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-11",
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 113.0, 162.0, 96.0, 22.0 ],
+					"style" : "",
+					"text" : "mpkey $1 $2 $3"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-6",
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 122.0, 253.0, 53.0, 22.0 ],
+					"style" : "",
+					"text" : "mpclear"
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"id" : "obj-16",
 					"maxclass" : "newobj",
@@ -108,7 +147,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 144.0, 617.0, 50.0, 36.0 ],
 					"style" : "",
-					"text" : "3 3 3 3 3 3 3 3"
+					"text" : "6 6 6 6 6 6 6 6"
 				}
 
 			}
@@ -186,9 +225,9 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 62.5, 617.0, 59.0, 36.0 ],
+					"patching_rect" : [ 62.5, 617.0, 62.0, 36.0 ],
 					"style" : "",
-					"text" : "3. 3. 3. 3. 3. 3. 3. 3."
+					"text" : "6. 6. 6. 6. 6. 6. 6. 6."
 				}
 
 			}
@@ -228,7 +267,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 119.0, 382.0, 29.5, 22.0 ],
 					"style" : "",
-					"text" : "5"
+					"text" : "4"
 				}
 
 			}
@@ -412,6 +451,13 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-31", 0 ],
+					"source" : [ "obj-11", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-31", 0 ],
 					"source" : [ "obj-12", 0 ]
 				}
 
@@ -420,6 +466,13 @@
 				"patchline" : 				{
 					"destination" : [ "obj-15", 0 ],
 					"source" : [ "obj-13", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-31", 0 ],
+					"source" : [ "obj-17", 0 ]
 				}
 
 			}
@@ -517,6 +570,7 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-25", 0 ],
+					"order" : 0,
 					"source" : [ "obj-3", 0 ]
 				}
 
@@ -525,6 +579,14 @@
 				"patchline" : 				{
 					"destination" : [ "obj-5", 0 ],
 					"source" : [ "obj-3", 2 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-6", 0 ],
+					"order" : 1,
+					"source" : [ "obj-3", 0 ]
 				}
 
 			}
@@ -586,8 +648,16 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-11", 0 ],
+					"order" : 0,
+					"source" : [ "obj-55", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-2", 1 ],
-					"order" : 1,
+					"order" : 2,
 					"source" : [ "obj-55", 0 ]
 				}
 
@@ -595,7 +665,7 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-28", 0 ],
-					"order" : 0,
+					"order" : 1,
 					"source" : [ "obj-55", 0 ]
 				}
 
@@ -609,7 +679,23 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-31", 0 ],
+					"source" : [ "obj-6", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-12", 0 ],
+					"order" : 1,
+					"source" : [ "obj-9", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-17", 0 ],
+					"order" : 0,
 					"source" : [ "obj-9", 0 ]
 				}
 
@@ -618,20 +704,20 @@
 		"dependency_cache" : [ 			{
 				"name" : "serialosc.maxpat",
 				"bootpath" : "D:/Documents/Max 7/Library/Gridlock/new/MAX/VSerialOSC-2",
-				"patcherrelativepath" : "../../../../Documents/Max 7/Library/Gridlock/new/MAX/VSerialOSC-2",
+				"patcherrelativepath" : "../../../../../Documents/Max 7/Library/Gridlock/new/MAX/VSerialOSC-2",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "set_my_offset.js",
 				"bootpath" : "D:/Documents/Max 7/Library/Gridlock/new/MAX/VSerialOSC-2",
-				"patcherrelativepath" : "../../../../Documents/Max 7/Library/Gridlock/new/MAX/VSerialOSC-2",
+				"patcherrelativepath" : "../../../../../Documents/Max 7/Library/Gridlock/new/MAX/VSerialOSC-2",
 				"type" : "TEXT",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "xn.grid.seq1.js",
-				"bootpath" : "D:/xynps/Max/Units/Monome",
+				"bootpath" : "D:/xynps/Max/Units/Monome/xn.gridseq1",
 				"patcherrelativepath" : ".",
 				"type" : "TEXT",
 				"implicit" : 1

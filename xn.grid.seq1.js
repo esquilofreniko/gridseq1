@@ -4,15 +4,56 @@ outlets = 3;
 // task delayer
 var Delayer = new Task(delayed);
 var delayValue = '';
-
 function delayed() {
   eval(delayValue);
   delayValue = '';
 }
-
 function delayThis(a, b) {
   delayValue = a;
   Delayer.schedule(b);
+}
+
+var mpstates1 = new Array(64);
+var mpleds1 = new Array(64);
+var mpcounts = new Array(8);
+var mpleadstate;
+
+function mpclear(){
+  mpledstate = 1;
+  for (var i = 0; i < 64; i++) {
+    mpstates1[i] = 0;
+    mpleds1[i] = 0;
+  }
+  for (var i = 0; i<8 ; i++){
+    mpcounts[i] = 7;
+    mpleds1[mpcounts[i]+i*8]= 10;
+  }
+  mpredraw();
+}
+
+function mpkey(){
+
+}
+
+function mpredraw(){
+  if (mpledstate == 1) {
+    for (var x = 0; x < 8; x++) {
+      for (var y = 0; y < 8; y++) {
+        var z = mpleds1[x + (y * 8)];
+        // x+8 meaning left side of grid;
+        outlet(0, "osc", "/monome/grid/led/level/set", x, y, z);
+      }
+    }
+  }
+  if (mpledstate == 2) {
+    for (var x = 0; x < 8; x++) {
+      for (var y = 0; y < 8; y++) {
+        var z = mpleds2[x + (y * 8)];
+        // x+8 meaning left side of grid;
+        outlet(0, "osc", "/monome/grid/led/level/set", x, y, z);
+      }
+    }
+  }
 }
 
 var ledstate = 1;
@@ -116,7 +157,6 @@ function key(x, y, z) {
     modemenu(xl, y);
   }
   redraw();
-  outlet(1, divs);
 }
 
 function statechanger(xl, y) {
@@ -501,8 +541,6 @@ function play() {
       leds1[soloouts[solorand] + (count[solorand] * 8)] = 15;
     }
   }
-  outlet(1, countf);
-  outlet(2, count);
   redraw();
 }
 
