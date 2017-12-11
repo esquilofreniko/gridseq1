@@ -49,13 +49,13 @@ function clear() {
     genrand[i] = 5;
   }
   for (var i = 0; i < 8; i++) {
-    probs[i] = 3;
+    probs[i] = 5;
     fills[i] = 1;
     octs[i] = 0;
-    modes1[i] = 1;
+    modes1[i] = 0;
     morphrand[i] = 0;
     morphnum[i] = 0;
-    clocks[i] = 2;
+    clocks[i] = 3;
     count[i] = 0;
     countf[i] = 0;
     old[i] = 7;
@@ -270,9 +270,18 @@ function probabilitymenu(xl, y) {
   }
 }
 
+// Maths.round(3.9999*100)/100
+
 function clockmenu(xl, y) {
   if (y <= 5) {
     clocks[xl] = y + 1;
+    count[xl] = 0;
+    countf[xl] = 0;
+    for (var i = 0; i < 8; i++) {
+      if (leds1[xl + i * 8] < 4) {
+        leds1[xl + i * 8] = 0;
+      }
+    }
   }
   for (var i = 0; i < 8; i++) {
     for (var j = 0; j < 8; j++) {
@@ -374,69 +383,7 @@ function play() {
   var soloouts = [];
   var solorand;
   for (var i = 0; i < 8; i++) {
-    countf[i] += 1 / clocks[i];
-    countf[i] %= 8;
-    count[i] = Math.floor(countf[i]);
-    count[i] %= 8;
-    if (countf[i] <= count[i]) {
-      old[i] = (count[i] - 1);
-      if (old[i] == -1) {
-        old[i] = 7;
-      }
-      if (count[i] == 0) {
-        if (modes1[i] == 0) {
-          // loop
-        } else if (modes1[i] == 1) {
-          // morph
-          morphnum[i] = Math.random() * 8;
-          morphnum[i] = Math.floor(morphnum[i]);
-          morphrand[i] = Math.random() * 10;
-          if (morphrand[i] <= fills[i] * 2) {
-            if (states1[i + morphnum[i] * 8] == 0 ||
-                states1[i + morphnum[i] * 8] == 2) {
-              states1[i + morphnum[i] * 8] = 2;
-            }
-            if (states1[i + morphnum[i] * 8] == 1 ||
-                states1[i + morphnum[i] * 8] == 3) {
-              states1[i + morphnum[i] * 8] = 1;
-            }
-            leds1map(i, morphnum[i])
-          }
-          if (morphrand[i] >= fills[i] * 2) {
-            if (states1[i + morphnum[i] * 8] == 0 ||
-                states1[i + morphnum[i] * 8] == 2) {
-              states1[i + morphnum[i] * 8] = 0;
-            }
-            if (states1[i + morphnum[i] * 8] == 1 ||
-                states1[i + morphnum[i] * 8] == 3) {
-              states1[i + morphnum[i] * 8] = 3;
-            }
-            leds1map(i, morphnum[i])
-          }
-        } else if (modes1[i] == 2) {
-          // generative
-          for (var j = 0; j < 8; j++) {
-            genrand[i + j * 8] = Math.random() * 10;
-            if (fills[i] * 2 >= genrand[i + j * 8]) {
-              if (states1[i + j * 8] == 0 || states1[i + j * 8] == 2) {
-                states1[i + j * 8] = 2;
-              }
-              if (states1[i + j * 8] == 1 || states1[i + j * 8] == 3) {
-                states1[i + j * 8] = 1;
-              }
-              leds1map(i, j);
-            }
-            if (fills[i] * 2 <= genrand[i + j * 8]) {
-              if (states1[i + j * 8] == 0 || states1[i + j * 8] == 2) {
-                states1[i + j * 8] = 0;
-              } else if (states1[i + j * 8] == 0 || states1[i + j * 8] == 2) {
-                states1[i + j * 8] = 3;
-              }
-              leds1map(i, j);
-            }
-          }
-        }
-      }
+    if (clocks[i] == 6) {
       if (leds1[i + (old[i] * 8)] < 4) {
         leds1[i + (old[i] * 8)] = 0;
       } else if (leds1[i + (old[i] * 8)] >= 4) {
@@ -445,24 +392,100 @@ function play() {
       if (leds1[i + (count[i] * 8)] < 4) {
         leds1[i + (count[i] * 8)] = 2;
       }
-      if (modes2 == 4) {
-        // normal
-        if (leds1[i + (count[i] * 8)] >= 4) {
-          probmath[i] = leds1[i + (count[i] * 8)] - 2; // 0 2 4 6 8 10
-          probrand[i] = Math.random() * 10;
-          if (probmath[i] > probrand[i]) {
-            outlet(0, "trig", (outs[i] + octs[i]));
-            leds1[i + (count[i] * 8)] = 15;
+    } else {
+      countf[i] += 1 / clocks[i];
+      countf[i] %= 8.0;
+
+      count[i] = Math.floor(countf[i]);
+      count[i] %= 8.0;
+
+      old[i] = (count[i] - 1);
+      if (old[i] == -1) {
+        old[i] = 7;
+      }
+      // if(countf[i]>=(count[i])+.80 || countf[i]<=(count[i])+1.2) {
+      if (countf[i] >= count[i]) {
+        if (count[i] == 0) {
+          if (modes1[i] == 0) {
+            // loop
+          } else if (modes1[i] == 1) {
+            // morph
+            morphnum[i] = Math.random() * 8;
+            morphnum[i] = Math.floor(morphnum[i]);
+            morphrand[i] = Math.random() * 10;
+            if (morphrand[i] <= fills[i] * 2) {
+              if (states1[i + morphnum[i] * 8] == 0 ||
+                  states1[i + morphnum[i] * 8] == 2) {
+                states1[i + morphnum[i] * 8] = 2;
+              }
+              if (states1[i + morphnum[i] * 8] == 1 ||
+                  states1[i + morphnum[i] * 8] == 3) {
+                states1[i + morphnum[i] * 8] = 1;
+              }
+              leds1map(i, morphnum[i])
+            }
+            if (morphrand[i] >= fills[i] * 2) {
+              if (states1[i + morphnum[i] * 8] == 0 ||
+                  states1[i + morphnum[i] * 8] == 2) {
+                states1[i + morphnum[i] * 8] = 0;
+              }
+              if (states1[i + morphnum[i] * 8] == 1 ||
+                  states1[i + morphnum[i] * 8] == 3) {
+                states1[i + morphnum[i] * 8] = 3;
+              }
+              leds1map(i, morphnum[i])
+            }
+          } else if (modes1[i] == 2) {
+            // generative
+            for (var j = 0; j < 8; j++) {
+              genrand[i + j * 8] = Math.random() * 10;
+              if (fills[i] * 2 >= genrand[i + j * 8]) {
+                if (states1[i + j * 8] == 0 || states1[i + j * 8] == 2) {
+                  states1[i + j * 8] = 2;
+                }
+                if (states1[i + j * 8] == 1 || states1[i + j * 8] == 3) {
+                  states1[i + j * 8] = 1;
+                }
+                leds1map(i, j);
+              }
+              if (fills[i] * 2 <= genrand[i + j * 8]) {
+                if (states1[i + j * 8] == 0 || states1[i + j * 8] == 2) {
+                  states1[i + j * 8] = 0;
+                } else if (states1[i + j * 8] == 0 || states1[i + j * 8] == 2) {
+                  states1[i + j * 8] = 3;
+                }
+                leds1map(i, j);
+              }
+            }
           }
         }
-      }
-      if (modes2 == 5) {
-        // solomode
-        if (leds1[i + (count[i] * 8)] >= 4) {
-          probmath[i] = (leds1[i + (count[i] * 8)] - 2); // 0 2 4 6 8 10
-          probrand[i] = Math.random() * 10;
-          if (probmath[i] > probrand[i]) {
-            soloouts.push(i);
+        if (leds1[i + (old[i] * 8)] < 4) {
+          leds1[i + (old[i] * 8)] = 0;
+        } else if (leds1[i + (old[i] * 8)] >= 4) {
+          leds1[i + (old[i] * 8)] = probs[i] * 2 + 2;
+        }
+        if (leds1[i + (count[i] * 8)] < 4) {
+          leds1[i + (count[i] * 8)] = 2;
+        }
+        if (modes2 == 4) {
+          // normal
+          if (leds1[i + (count[i] * 8)] >= 4) {
+            probmath[i] = leds1[i + (count[i] * 8)] - 2; // 0 2 4 6 8 10
+            probrand[i] = Math.random() * 10;
+            if (probmath[i] > probrand[i]) {
+              outlet(0, "trig", (outs[i] + octs[i]));
+              leds1[i + (count[i] * 8)] = 15;
+            }
+          }
+        }
+        if (modes2 == 5) {
+          // solomode
+          if (leds1[i + (count[i] * 8)] >= 4) {
+            probmath[i] = (leds1[i + (count[i] * 8)] - 2); // 0 2 4 6 8 10
+            probrand[i] = Math.random() * 10;
+            if (probmath[i] > probrand[i]) {
+              soloouts.push(i);
+            }
           }
         }
       }
@@ -475,7 +498,7 @@ function play() {
       leds1[soloouts[solorand] + (count[solorand] * 8)] = 15;
     }
   }
-  outlet(1, soloouts);
+  outlet(1, countf);
   outlet(2, count);
   redraw();
 }
