@@ -31,8 +31,11 @@ var outs = new Array(8);
 outs = [ 0, 1, 2, 3, 4, 5, 6, 7 ];
 var morphrand = new Array(8);
 var morphnum = new Array(8);
+var clocks = new Array(8);
 var modes2;
 var soloouts = [];
+var count = [];
+var old = [];
 
 function clear() {
   ledstate = 1;
@@ -50,6 +53,9 @@ function clear() {
     modes1[i] = 1;
     morphrand[i] = 0;
     morphnum[i] = 0;
+    clocks[i] = 1;
+    count[i] = 0;
+    old[i] = 7;
   }
   redraw();
 }
@@ -92,24 +98,23 @@ function key(x, y, z) {
   if (states1[2 + (7 * 8)] == 1 || states1[2 + (7 * 8)] == 3) {
     clockmenu(xl, y);
   }
-  if (states1[3 + (7 * 8)] == 1 || states1[2 + (7 * 8)] == 3) {
+  if (states1[3 + (7 * 8)] == 1 || states1[3 + (7 * 8)] == 3) {
     lengthmenu(xl, y);
   }
   if (states1[4 + (7 * 8)] == 1 || states1[4 + (7 * 8)] == 3) {
     scalesmenu(xl, y);
   }
-  if (states1[5 + (7 * 8)] == 1 || states1[7 + (7 * 8)] == 3) {
+  if (states1[5 + (7 * 8)] == 1 || states1[5 + (7 * 8)] == 3) {
     octavemenu(xl, y);
   }
-  if (states1[6 + (7 * 8)] == 1 || states1[7 + (7 * 8)] == 3) {
+  if (states1[6 + (7 * 8)] == 1 || states1[6 + (7 * 8)] == 3) {
     notemodemenu(xl, y);
   }
   if (states1[7 + (7 * 8)] == 1 || states1[7 + (7 * 8)] == 3) {
     modemenu(xl, y);
   }
   redraw();
-  outlet(1, modes1);
-  outlet(2, modes2);
+  outlet(1, clocks);
 }
 
 function statechanger(xl, y) {
@@ -147,6 +152,7 @@ function ledstatemenu() {
       }
     }
   }
+  redraw();
 }
 
 function fillmenu(xl, y) {
@@ -261,10 +267,25 @@ function probabilitymenu(xl, y) {
 }
 
 function clockmenu(xl, y) {
+  if (y <= 5) {
+    clocks[xl] = y + 1;
+  }
   for (var i = 0; i < 8; i++) {
     for (var j = 0; j < 8; j++) {
       leds2[i + j * 8] = 0;
     }
+  }
+  for (var i = 0; i < 8; i++) {
+    for (var j = 0; j < 6; j++) {
+      leds2[i + j * 8] = 4;
+    }
+    for (var j = 6; j >= 7; j++) {
+      leds2[i + j * 8] = 0;
+    }
+    for (var j = 0; j < clocks[i] - 1; j++) {
+      leds2[i + j * 8] = 0;
+    }
+    leds2[i + ((clocks[i] - 1) * 8)] = 10;
   }
 }
 
@@ -345,14 +366,15 @@ function notemenu(nxl, y) {
   leds2[outs[nmxl]] = 10;
 }
 
-function play(count) {
-  count %= 8;
-  var old = (count - 1);
-  if (old == -1) {
-    old = 7;
-  }
-  if (count == 0) {
-    for (var i = 0; i < 8; i++) {
+function play() {
+  for (var i = 0; i < 8; i++) {
+    count[i] += 1;
+    count[i] %= 8;
+    old[i] = (count[i] - 1);
+    if (old[i] == -1) {
+      old[i] = 7;
+    }
+    if (count[i] == 0) {
       if (modes1[i] == 0) {
         // loop
       } else if (modes1[i] == 1) {
@@ -408,32 +430,32 @@ function play(count) {
     }
   }
   for (var i = 0; i < 8; i++) {
-    if (leds1[i + (old * 8)] < 4) {
-      leds1[i + (old * 8)] = 0;
-    } else if (leds1[i + (old * 8)] >= 4) {
-      leds1[i + (old * 8)] = probs[i] * 2 + 2;
+    if (leds1[i + (old[i] * 8)] < 4) {
+      leds1[i + (old[i] * 8)] = 0;
+    } else if (leds1[i + (old[i] * 8)] >= 4) {
+      leds1[i + (old[i] * 8)] = probs[i] * 2 + 2;
     }
   }
   var soloouts = [];
   for (var i = 0; i < 8; i++) {
-    if (leds1[i + (count * 8)] < 4) {
-      leds1[i + (count * 8)] = 2;
+    if (leds1[i + (count[i] * 8)] < 4) {
+      leds1[i + (count[i] * 8)] = 2;
     }
     if (modes2 == 4) {
       // normal
-      if (leds1[i + (count * 8)] >= 4) {
-        probmath[i] = leds1[i + (count * 8)] - 2; // 0 2 4 6 8 10
+      if (leds1[i + (count[i] * 8)] >= 4) {
+        probmath[i] = leds1[i + (count[i] * 8)] - 2; // 0 2 4 6 8 10
         probrand[i] = Math.random() * 10;
         if (probmath[i] > probrand[i]) {
           outlet(0, "trig", (outs[i] + octs[i]));
-          leds1[i + (count * 8)] = 15;
+          leds1[i + (count[i] * 8)] = 15;
         }
       }
     }
     if (modes2 == 5) {
       // solomode
-      if (leds1[i + (count * 8)] >= 4) {
-        probmath[i] = (leds1[i + (count * 8)] - 2); // 0 2 4 6 8 10
+      if (leds1[i + (count[i] * 8)] >= 4) {
+        probmath[i] = (leds1[i + (count[i] * 8)] - 2); // 0 2 4 6 8 10
         probrand[i] = Math.random() * 10;
         if (probmath[i] > probrand[i]) {
           soloouts.push(i);
@@ -449,6 +471,7 @@ function play(count) {
       leds1[soloouts[solorand] + (count * 8)] = 15;
     }
   }
+  outlet(2, count);
   redraw();
 }
 
