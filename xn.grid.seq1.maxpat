@@ -149,7 +149,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 163.0, 497.0, 50.0, 22.0 ],
 					"style" : "",
-					"text" : "4"
+					"text" : "5"
 				}
 
 			}
@@ -215,7 +215,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 6.0, 200.0, 50.0, 22.0 ],
 					"style" : "",
-					"text" : "15 7 0"
+					"text" : "8 7 0"
 				}
 
 			}
@@ -255,7 +255,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 11.0, 386.0, 106.0, 36.0 ],
 					"style" : "",
-					"text" : "/monome/grid/led/level/set 15 7 2"
+					"text" : "/monome/grid/led/level/set 15 7 0"
 				}
 
 			}
@@ -268,7 +268,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 119.0, 382.0, 44.0, 22.0 ],
 					"style" : "",
-					"text" : "3"
+					"text" : "5"
 				}
 
 			}
@@ -567,6 +567,14 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-10", 0 ],
+					"order" : 0,
+					"source" : [ "obj-27", 1 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-112", 1 ],
 					"order" : 0,
 					"source" : [ "obj-27", 0 ]
@@ -578,6 +586,14 @@
 					"destination" : [ "obj-116", 1 ],
 					"order" : 1,
 					"source" : [ "obj-27", 2 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-14", 0 ],
+					"order" : 2,
+					"source" : [ "obj-27", 1 ]
 				}
 
 			}
@@ -600,6 +616,7 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-86", 1 ],
+					"order" : 1,
 					"source" : [ "obj-27", 1 ]
 				}
 
