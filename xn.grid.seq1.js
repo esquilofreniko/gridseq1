@@ -28,7 +28,7 @@ var outs = new Array(8);
 outs = [ 0, 1, 2, 3, 4, 5, 6, 7 ];
 var morphrand = new Array(8);
 var morphnum = new Array(8);
-// var divs = new Array(8);
+var divs = new Array(8);
 var modes2;
 var soloouts = [];
 var count = [];
@@ -51,7 +51,7 @@ function seq1clear() {
     modes1[i] = 1;
     morphrand[i] = 0;
     morphnum[i] = 0;
-    // divs[i] = 1;
+    divs[i] = 1;
     count[i] = 0;
     countf[i] = 0;
     old[i] = 7;
@@ -89,7 +89,7 @@ function seq1key(x, y, z) {
       }
     }
     if (states1[0 + (7 * 8)] == 1 || states1[0 + (7 * 8)] == 3) {
-
+      divmenu(xl, y);
     }
     if (states1[1 + (7 * 8)] == 1 || states1[1 + (7 * 8)] == 3) {
       sfmxl = states1[1 + (7 * 8)];
@@ -155,38 +155,38 @@ function ledstatemenu() {
   redraw();
 }
 
-// function divmenu(xl, y) {
-//   if (y <= 5) {
-//     divs[xl] = y + 1;
-//     count[xl] = 0;
-//     countf[xl] = 0;
-//     for (var i = 0; i < 8; i++) {
-//       if (leds1[xl + i * 8] < 4) {
-//         leds1[xl + i * 8] = 0;
-//       }
-//     }
-//   }
-//   for (var i = 0; i < 8; i++) {
-//     for (var j = 0; j < 8; j++) {
-//       leds2[i + j * 8] = 0;
-//     }
-//   }
-//   for (var i = 0; i < 8; i++) {
-//     for (var j = 0; j < 6; j++) {
-//       leds2[i + j * 8] = 6;
-//     }
-//     for (var j = 6; j >= 7; j++) {
-//       leds2[i + j * 8] = 0;
-//     }
-//     for (var j = 0; j < divs[i] - 1; j++) {
-//       leds2[i + j * 8] = 2;
-//     }
-//     leds2[i + ((divs[i] - 1) * 8)] = 10;
-//     leds2[i + 5 * 8] = 2;
-//     leds2[i + 6 * 8] = 0;
-//     leds2[i + 7 * 8] = 0;
-//   }
-// }
+function divmenu(xl, y) {
+  if (y <= 5) {
+    divs[xl] = y + 1;
+    count[xl] = 0;
+    countf[xl] = 0;
+    for (var i = 0; i < 8; i++) {
+      if (leds1[xl + i * 8] < 4) {
+        leds1[xl + i * 8] = 0;
+      }
+    }
+  }
+  for (var i = 0; i < 8; i++) {
+    for (var j = 0; j < 8; j++) {
+      leds2[i + j * 8] = 0;
+    }
+  }
+  for (var i = 0; i < 8; i++) {
+    for (var j = 0; j < 6; j++) {
+      leds2[i + j * 8] = 6;
+    }
+    for (var j = 6; j >= 7; j++) {
+      leds2[i + j * 8] = 0;
+    }
+    for (var j = 0; j < divs[i] - 1; j++) {
+      leds2[i + j * 8] = 2;
+    }
+    leds2[i + ((divs[i] - 1) * 8)] = 10;
+    leds2[i + 5 * 8] = 2;
+    leds2[i + 6 * 8] = 0;
+    leds2[i + 7 * 8] = 0;
+  }
+}
 
 function fillmenu(xl, y) {
   var fillnumb, fillrand;
@@ -380,98 +380,118 @@ function notemenu(nxl, y) {
   leds2[outs[nmxl]] = 10;
 }
 
-function seq1play(y) {
+function seq1play() {
   var soloouts = [];
   var solorand;
-  count[y] += 1;
-  count[y] %= 8.0;
-  old[y] = (count[y] - 1);
-  if (old[y] == -1) {
-    old[y] = 7;
+  for (var i = 0; i < 8; i++) {
+    if (divs[i] == 6) {
+      if (leds1[i + (old[i] * 8)] < 4) {
+        leds1[i + (old[i] * 8)] = 0;
+      } else if (leds1[i + (old[i] * 8)] >= 4) {
+        leds1[i + (old[i] * 8)] = probs[i] * 2 + 2;
+      }
+      if (leds1[i + (count[i] * 8)] < 4) {
+        leds1[i + (count[i] * 8)] = 2;
+      }
+    } else {
+      countf[i] += 1 / divs[i];
+      countf[i] %= 8.0;
+
+      count[i] = Math.floor(countf[i]);
+      count[i] %= 8.0;
+
+      old[i] = (count[i] - 1);
+      if (old[i] == -1) {
+        old[i] = 7;
+      }
+      // if(countf[i]>=(count[i])+.80 || countf[i]<=(count[i])+1.2) {
+      if (countf[i] >= count[i]) {
+        if (count[i] == 0) {
+          if (modes1[i] == 0) {
+            // loop
+          } else if (modes1[i] == 1) {
+            // morph
+            morphnum[i] = Math.random() * 8;
+            morphnum[i] = Math.floor(morphnum[i]);
+            morphrand[i] = Math.random() * 10;
+            if (morphrand[i] <= fills[i] * 2) {
+              if (states1[i + morphnum[i] * 8] == 0 ||
+                  states1[i + morphnum[i] * 8] == 2) {
+                states1[i + morphnum[i] * 8] = 2;
+              }
+              if (states1[i + morphnum[i] * 8] == 1 ||
+                  states1[i + morphnum[i] * 8] == 3) {
+                states1[i + morphnum[i] * 8] = 1;
+              }
+              leds1map(i, morphnum[i])
+            }
+            if (morphrand[i] >= fills[i] * 2) {
+              if (states1[i + morphnum[i] * 8] == 0 ||
+                  states1[i + morphnum[i] * 8] == 2) {
+                states1[i + morphnum[i] * 8] = 0;
+              }
+              if (states1[i + morphnum[i] * 8] == 1 ||
+                  states1[i + morphnum[i] * 8] == 3) {
+                states1[i + morphnum[i] * 8] = 3;
+              }
+              leds1map(i, morphnum[i])
+            }
+          } else if (modes1[i] == 2) {
+            // generative
+            for (var j = 0; j < 8; j++) {
+              genrand[i + j * 8] = Math.random() * 10;
+              if (fills[i] * 2 >= genrand[i + j * 8]) {
+                if (states1[i + j * 8] == 0 || states1[i + j * 8] == 2) {
+                  states1[i + j * 8] = 2;
+                }
+                if (states1[i + j * 8] == 1 || states1[i + j * 8] == 3) {
+                  states1[i + j * 8] = 1;
+                }
+                leds1map(i, j);
+              }
+              if (fills[i] * 2 <= genrand[i + j * 8]) {
+                if (states1[i + j * 8] == 0 || states1[i + j * 8] == 2) {
+                  states1[i + j * 8] = 0;
+                } else if (states1[i + j * 8] == 0 || states1[i + j * 8] == 2) {
+                  states1[i + j * 8] = 3;
+                }
+                leds1map(i, j);
+              }
+            }
+          }
+        }
+        if (leds1[i + (old[i] * 8)] < 4) {
+          leds1[i + (old[i] * 8)] = 0;
+        } else if (leds1[i + (old[i] * 8)] >= 4) {
+          leds1[i + (old[i] * 8)] = probs[i] * 2 + 2;
+        }
+        if (leds1[i + (count[i] * 8)] < 4) {
+          leds1[i + (count[i] * 8)] = 2;
+        }
+        if (modes2 == 4) {
+          // normal
+          if (leds1[i + (count[i] * 8)] >= 4) {
+            probmath[i] = leds1[i + (count[i] * 8)] - 2; // 0 2 4 6 8 10
+            probrand[i] = Math.random() * 10;
+            if (probmath[i] > probrand[i]) {
+              outlet(0, "trig", (outs[i] + octs[i]));
+              leds1[i + (count[i] * 8)] = 15;
+            }
+          }
+        }
+        if (modes2 == 5) {
+          // solomode
+          if (leds1[i + (count[i] * 8)] >= 4) {
+            probmath[i] = (leds1[i + (count[i] * 8)] - 2); // 0 2 4 6 8 10
+            probrand[i] = Math.random() * 10;
+            if (probmath[i] > probrand[i]) {
+              soloouts.push(i);
+            }
+          }
+        }
+      }
+    }
   }
-  if (count[y] == 0) {
-    if (modes1[y] == 0) {
-      // loop
-    } else if (modes1[y] == 1) {
-      // morph
-      morphnum[y] = Math.random() * 8;
-      morphnum[y] = Math.floor(morphnum[y]);
-      morphrand[y] = Math.random() * 10;
-      if (morphrand[y] <= fills[y] * 2) {
-        if (states1[y + morphnum[y] * 8] == 0 ||
-            states1[y + morphnum[y] * 8] == 2) {
-          states1[y + morphnum[y] * 8] = 2;
-        }
-        if (states1[y + morphnum[y] * 8] == 1 ||
-            states1[y + morphnum[y] * 8] == 3) {
-          states1[y + morphnum[y] * 8] = 1;
-        }
-        leds1map(y, morphnum[y])
-      }
-      if (morphrand[y] >= fills[y] * 2) {
-        if (states1[y + morphnum[y] * 8] == 0 ||
-            states1[y + morphnum[y] * 8] == 2) {
-          states1[y + morphnum[y] * 8] = 0;
-        }
-        if (states1[y + morphnum[y] * 8] == 1 ||
-            states1[y + morphnum[y] * 8] == 3) {
-          states1[y + morphnum[y] * 8] = 3;
-        }
-        leds1map(i, morphnum[y])
-      }
-    } else if (modes1[y] == 2) {
-      // generative
-      for (var j = 0; j < 8; j++) {
-        genrand[y + j * 8] = Math.random() * 10;
-        if (fills[y] * 2 >= genrand[y + j * 8]) {
-          if (states1[y + j * 8] == 0 || states1[y + j * 8] == 2) {
-            states1[y + j * 8] = 2;
-          }
-          if (states1[y + j * 8] == 1 || states1[y + j * 8] == 3) {
-            states1[y + j * 8] = 1;
-          }
-          leds1map(y, j);
-        }
-        if (fills[y] * 2 <= genrand[y + j * 8]) {
-          if (states1[y + j * 8] == 0 || states1[y + j * 8] == 2) {
-            states1[y + j * 8] = 0;
-          } else if (states1[y + j * 8] == 0 || states1[y + j * 8] == 2) {
-            states1[y + j * 8] = 3;
-          }
-          leds1map(y, j);
-        }
-      }
-    }
-  }
-    if (leds1[y + (old[y] * 8)] < 4) {
-      leds1[y + (old[y] * 8)] = 0;
-    } else if (leds1[y + (old[y] * 8)] >= 4) {
-      leds1[y + (old[y] * 8)] = probs[y] * 2 + 2;
-    }
-    if (leds1[y + (count[y] * 8)] < 4) {
-      leds1[y + (count[y] * 8)] = 2;
-    }
-    if (modes2 == 4) {
-      // normal
-      if (leds1[y + (count[y] * 8)] >= 4) {
-        probmath[y] = leds1[y + (count[y] * 8)] - 2; // 0 2 4 6 8 10
-        probrand[y] = Math.random() * 10;
-        if (probmath[y] > probrand[y]) {
-          outlet(0, "trig", (outs[y] + octs[y]));
-          leds1[y + (count[y] * 8)] = 15;
-        }
-      }
-    }
-    if (modes2 == 5) {
-      // solomode
-      if (leds1[y + (count[y] * 8)] >= 4) {
-        probmath[y] = (leds1[y + (count[y] * 8)] - 2); // 0 2 4 6 8 10
-        probrand[y] = Math.random() * 10;
-        if (probmath[y] > probrand[y]) {
-          soloouts.push(y);
-        }
-      }
-    }
   if (modes2 == 5) {
     solorand = (Math.floor(Math.random() * soloouts.length));
     if (soloouts.length > 0) {
