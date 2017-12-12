@@ -100,7 +100,7 @@ function seq1key(x, y, z) {
       divmenu(xl, y);
     }
     if (states1[2 + (7 * 8)] == 1 || states1[2 + (7 * 8)] == 3) {
-      sfmxl = states1[1 + (7 * 8)];
+      sfmxl = states1[2 + (7 * 8)];
       fillmenu(xl, y);
     }
     if (states1[3 + (7 * 8)] == 1 || states1[3 + (7 * 8)] == 3) {
@@ -162,7 +162,7 @@ function ledstatemenu() {
 
 function clockmenu(xl, y) {
   if(y<6){
-    clockstatus = 48-((xl+y*8)-3);
+    clockstatus = 48-((xl+y*8));
     clockbpm = clockstatus*5;
   }
   for (var i = 0; i < 8; i++) {
@@ -172,7 +172,7 @@ function clockmenu(xl, y) {
     for (var j = 6; j < 8; j++) {
       leds2[i + j * 8] = 0;
     }
-    leds2[48-(clockstatus-3)]=10;
+    leds2[48-(clockstatus)]=10;
   }
   outlet(0,"clock",clockbpm);
 }
@@ -297,10 +297,10 @@ function fillmenu(xl, y) {
       leds1map(xl, i);
     }
   }
-  if (states1[1 + 7 * 8] == 0 || states1[1 + 7 * 8] == 2) {
-    states1[1 + 7 * 8] = states1[1 + 7 * 8] - 1;
-    if (states1[1 + 7 * 8] == -1) {
-      states1[1 + 7 * 8] = 3
+  if (states1[2 + 7 * 8] == 0 || states1[2 + 7 * 8] == 2) {
+    states1[2 + 7 * 8] = states1[2 + 7 * 8] - 1;
+    if (states1[2 + 7 * 8] == -1) {
+      states1[2 + 7 * 8] = 3
     }
   }
 }

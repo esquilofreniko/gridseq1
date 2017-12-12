@@ -1,6 +1,6 @@
 Menus(left):
 if(y == 7){
-0: mainclock
+0: clock (done)
 1: divs (nfixes)
 2: fills (done)
 3: prob (done)
