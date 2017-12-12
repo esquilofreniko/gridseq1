@@ -370,7 +370,7 @@ function octavemenu(xl, y, z) {
     for (var j = 0; j < 2; j++) {
       leds2[i + (j + 6) * 8] = 0;
     }
-    for (var j = 0; j <= octs[xl].length; j++) {
+    for (var j = 0; j <= octs[i].length; j++) {
       leds2[i + ((5 - (octs[i][j] / 12)) * 8)] = 10;
     }
   }
