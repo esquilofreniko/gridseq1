@@ -77,6 +77,7 @@ function seq1clear() {
     octs[i][0] = 0;
     lengthsnum[i] = 0;
     lengths[i] = 0;
+    tsk[i] = [];
   }
   clockstatus = 24;
   clockbpm = clockstatus * 5;
@@ -595,8 +596,8 @@ function seq1play() {
                   octout[j] = Math.floor(Math.random() * octs[i].length);
                   outlet(0, "trig", (outs[i][nmout[j]] + octs[i][octout[j]]),
                          120);
-                  tsk[i] = new Task(noteoff,this,outs[i][nmout[j]] + octs[i][octout[j]]);
-                  tsk[i].repeat(1,lengths[i]);
+                  tsk[i][j] = new Task(noteoff,this,outs[i][nmout[j]] + octs[i][octout[j]]);
+                  tsk[i][j].repeat(1,lengths[i]);
                   leds1[i + (count[i] * 8)] = 15;
                 }
               }
@@ -639,9 +640,10 @@ function seq1play() {
             leds1[i + (count[i] * 8)] = 15;
           } else if (notemodes[i] > 0) {
             for (var j = 0; j < notemodes[i]; j++) {
-
               outlet(0, "trig", soloouts[(solorand + j) % soloouts.length],
                      120);
+              tsk[i][j] = new Task(noteoff,this,soloouts[(solorand + j) % soloouts.length]);
+              tsk[i][j].repeat(1,lengths[i]);
               leds1[i + (count[i] * 8)] = 15;
             }
           }
