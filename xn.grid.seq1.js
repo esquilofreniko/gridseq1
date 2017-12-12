@@ -12,6 +12,15 @@ function delayThis(a, b) {
   Delayer.schedule(b);
 }
 
+function inArray(needle,haystack){
+    var count=haystack.length;
+    for(var i=0;i<count;i++)
+    {
+        if(haystack[i]===needle){return 1;}
+    }
+    return 0;
+}
+
 var ledstate = 1;
 var nmxl;
 var states1 = new Array(64);
@@ -57,6 +66,11 @@ function seq1clear() {
     count[i] = 0;
     countf[i] = 0;
     old[i] = 7;
+    outs[i] = new Array(48);
+    for(var j =0;j<48;j++){
+      outs[i][j] = 0;
+      outs[i][i] = 1;
+    }
   }
   clockstatus = 24;
   clockbpm = clockstatus*5;
@@ -389,9 +403,20 @@ function notemenu(nxl, y) {
     }
   }
   if (y <= 5) {
-    outs[nmxl] = (nxl + y * 8);
+    if(outs[nmxl][nxl+y*8]==1){
+      outs[nmxl][nxl+y*8]=0;
+    } else if(outs[nmxl][nxl+y*8]==0){
+      outs[nmxl][nxl+y*8]=1;
+    }
   }
-  leds2[outs[nmxl]] = 10;
+  for(var i = 0; i<48;i++){
+    if(outs[nxl][i]==1){
+      leds2[i]=10;
+    } else if(outs[nxl][i]==0){
+      leds2[i]=2;
+    }
+  }
+  outlet(1,outs[nmxl]);
 }
 
 function seq1play() {
@@ -488,7 +513,7 @@ function seq1play() {
             probmath[i] = leds1[i + (count[i] * 8)] - 2; // 0 2 4 6 8 10
             probrand[i] = Math.random() * 10;
             if (probmath[i] > probrand[i]) {
-              outlet(0, "trig", (outs[i] + octs[i]));
+              outlet(0, "trig", (outs[i][0] + octs[i]));
               leds1[i + (count[i] * 8)] = 15;
             }
           }
