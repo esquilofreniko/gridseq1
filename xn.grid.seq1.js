@@ -34,6 +34,8 @@ var soloouts = [];
 var count = [];
 var countf = [];
 var old = [];
+var clockstatus;
+var clockbpm;
 
 function seq1clear() {
   ledstate = 1;
@@ -56,6 +58,9 @@ function seq1clear() {
     countf[i] = 0;
     old[i] = 7;
   }
+  clockstatus = 24;
+  clockbpm = clockstatus*5;
+  outlet(0,"clock",clockbpm);
   redraw();
 }
 
@@ -89,23 +94,23 @@ function seq1key(x, y, z) {
       }
     }
     if (states1[0 + (7 * 8)] == 1 || states1[0 + (7 * 8)] == 3) {
-      divmenu(xl, y);
+      clockmenu(xl,y);
     }
     if (states1[1 + (7 * 8)] == 1 || states1[1 + (7 * 8)] == 3) {
+      divmenu(xl, y);
+    }
+    if (states1[2 + (7 * 8)] == 1 || states1[2 + (7 * 8)] == 3) {
       sfmxl = states1[1 + (7 * 8)];
       fillmenu(xl, y);
     }
-    if (states1[2 + (7 * 8)] == 1 || states1[2 + (7 * 8)] == 3) {
+    if (states1[3 + (7 * 8)] == 1 || states1[3 + (7 * 8)] == 3) {
       probabilitymenu(xl, y);
     }
-    if (states1[3 + (7 * 8)] == 1 || states1[3 + (7 * 8)] == 3) {
+    if (states1[4 + (7 * 8)] == 1 || states1[4 + (7 * 8)] == 3) {
       lengthmenu(xl, y);
     }
-    if (states1[4 + (7 * 8)] == 1 || states1[4 + (7 * 8)] == 3) {
-      octavemenu(xl, y);
-    }
     if (states1[5 + (7 * 8)] == 1 || states1[5 + (7 * 8)] == 3) {
-      scalesmenu(xl, y);
+      octavemenu(xl, y);
     }
     if (states1[6 + (7 * 8)] == 1 || states1[6 + (7 * 8)] == 3) {
       notemodemenu(xl, y);
@@ -153,6 +158,23 @@ function ledstatemenu() {
     }
   }
   redraw();
+}
+
+function clockmenu(xl, y) {
+  if(y<6){
+    clockstatus = 48-((xl+y*8)-3);
+    clockbpm = clockstatus*5;
+  }
+  for (var i = 0; i < 8; i++) {
+    for (var j = 0; j < 6; j++) {
+      leds2[i + j * 8] = 4;
+    }
+    for (var j = 6; j < 8; j++) {
+      leds2[i + j * 8] = 0;
+    }
+    leds2[48-(clockstatus-3)]=10;
+  }
+  outlet(0,"clock",clockbpm);
 }
 
 function divmenu(xl, y) {
@@ -323,14 +345,6 @@ function octavemenu(xl, y) {
   }
   if (y <= 5) {
     octs[xl] = 60 - (y * 12);
-  }
-}
-
-function scalesmenu(xl, y) {
-  for (var i = 0; i < 8; i++) {
-    for (var j = 0; j < 8; j++) {
-      leds2[i + j * 8] = 0;
-    }
   }
 }
 
