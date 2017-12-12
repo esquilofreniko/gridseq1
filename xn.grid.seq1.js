@@ -584,9 +584,9 @@ function seq1play() {
     if (soloouts.length > 0) {
       if (notemodes[solorand] == 0) {
         outlet(0, "trig", soloouts[solorand]);
-        for (var i=0;i<8;i++){
-          if(wtv1[i] == soloouts[solorand]){
-            leds1[wtv1[i] + (count[i] * 8)] = 15;
+        for (var i = 0; i < 8; i++) {
+          if (wtv1[i] == soloouts[solorand]) {
+            leds1[i + (count[i] * 8)] = 15;
           }
         }
       }
