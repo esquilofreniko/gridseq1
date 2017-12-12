@@ -61,8 +61,8 @@ function seq1clear() {
   for (var i = 0; i < 8; i++) {
     probs[i] = 5;
     fills[i] = 1;
-    modes1[i] = 1;
-    notemodes[i] = 1;
+    modes1[i] = 0;
+    notemodes[i] = 0;
     morphrand[i] = 0;
     morphnum[i] = 0;
     divs[i] = 1;
@@ -391,7 +391,7 @@ function notemodemenu(xl, y) {
     for (var j = 0; j < 5 - notemodes[i]; j++) {
       leds2[i + j * 8] = 0;
     }
-    leds2[i + 5 * 8] = 4;
+    leds2[i + 5 * 8] = 2;
     leds2[i + 6 * 8] = 0;
     leds2[i + 7 * 8] = 0;
     leds2[i + ((5 - notemodes[i]) * 8)] = 10;
@@ -542,10 +542,20 @@ function seq1play() {
             probmath[i] = leds1[i + (count[i] * 8)] - 2; // 0 2 4 6 8 10
             probrand[i] = Math.random() * 10;
             if (probmath[i] > probrand[i]) {
-              if (notemodes[i] == 1) {
-                var nmout = Math.floor(Math.random() * outs[i].length);
-                outlet(0, "trig", (outs[i][nmout] + octs[i]));
+              if (notemodes[i] == 0) {
+                var nm0out = Math.floor(Math.random() * outs[i].length);
+                var oct0out = Math.floor(Math.random() * octs[i].length);
+                outlet(0, "trig", (outs[i][nm0out] + octs[i][oct0out]));
                 leds1[i + (count[i] * 8)] = 15;
+              } else if (notemodes[i] > 0) {
+                var nmout = [];
+                var octout = [];
+                  for(var j=0;j<notemodes[i];j++){
+                    nmout[j] = Math.floor(Math.random() * outs[i].length);
+                    octout[j] = Math.floor(Math.random() * octs[i].length);
+                    outlet(0, "trig", (outs[i][nmout[j]] + octs[i][octout[j]]), 120);
+                    leds1[i + (count[i] * 8)] = 15;
+                  }
               }
             }
           }
