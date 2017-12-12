@@ -62,7 +62,7 @@ function seq1clear() {
     probs[i] = 5;
     fills[i] = 1;
     modes1[i] = 0;
-    notemodes[i] = 0;
+    notemodes[i] = 2;
     morphrand[i] = 0;
     morphnum[i] = 0;
     divs[i] = 1;
@@ -568,11 +568,19 @@ function seq1play() {
             probmath[i] = (leds1[i + (count[i] * 8)] - 2); // 0 2 4 6 8 10
             probrand[i] = Math.random() * 10;
             if (probmath[i] > probrand[i]) {
-              var nm0out2 = Math.floor(Math.random() * outs[i].length);
-              var oct0out2 = Math.floor(Math.random() * octs[i].length);
-              soloouts.push(outs[i][nm0out2] + octs[i][oct0out2]);
-              wtv1[i] = (outs[i][nm0out2] + octs[i][oct0out2]);
-              outlet(2, soloouts[i]);
+              if (notemodes[i] == 0) {
+                var nm0out2 = Math.floor(Math.random() * outs[i].length);
+                var oct0out2 = Math.floor(Math.random() * octs[i].length);
+                soloouts.push(outs[i][nm0out2] + octs[i][oct0out2]);
+                wtv1[i] = (outs[i][nm0out2] + octs[i][oct0out2]);
+              } else if (notemodes[i] > 0) {
+                for (var j = 0; j < notemodes[i]; j++) {
+                  var nm0out2 = Math.floor(Math.random() * outs[i].length);
+                  var oct0out2 = Math.floor(Math.random() * octs[i].length);
+                  soloouts.push(outs[i][nm0out2] + octs[i][oct0out2]);
+                  wtv1[i] = (outs[i][nm0out2] + octs[i][oct0out2]);
+                }
+              }
             }
           }
         }
@@ -580,8 +588,9 @@ function seq1play() {
     }
   }
   if (modes2 == 5) {
-    solorand = (Math.floor(Math.random() * soloouts.length));
     if (soloouts.length > 0) {
+          solorand = (Math.floor(Math.random() * soloouts.length));
+
 
       for (var i = 0; i < 8; i++) {
         if (wtv1[i] == soloouts[solorand]) {
@@ -589,33 +598,37 @@ function seq1play() {
             outlet(0, "trig", soloouts[solorand]);
             leds1[i + (count[i] * 8)] = 15;
           } else if (notemodes[i] > 0) {
-            outlet(0, "trig", soloouts[solorand],120);
-            leds1[i + (count[i] * 8)] = 15;
+            for (var j = 0; j < notemodes[i]; j++) {
+
+              outlet(0, "trig", soloouts[(solorand+j)%soloouts.length], 120);
+              leds1[i + (count[i] * 8)] = 15;
+            }
           }
         }
       }
     }
-    }
-    redraw();
   }
+  outlet(2,soloouts);
+  redraw();
+}
 
-  function redraw() {
-    if (ledstate == 1) {
-      for (var x = 0; x < 8; x++) {
-        for (var y = 0; y < 8; y++) {
-          var z = leds1[x + (y * 8)];
-          // x+8 meaning left side of grid;
-          outlet(0, "osc", "/monome/grid/led/level/set", x + 8, y, z);
-        }
-      }
-    }
-    if (ledstate == 2) {
-      for (var x = 0; x < 8; x++) {
-        for (var y = 0; y < 8; y++) {
-          var z = leds2[x + (y * 8)];
-          // x+8 meaning left side of grid;
-          outlet(0, "osc", "/monome/grid/led/level/set", x + 8, y, z);
-        }
+function redraw() {
+  if (ledstate == 1) {
+    for (var x = 0; x < 8; x++) {
+      for (var y = 0; y < 8; y++) {
+        var z = leds1[x + (y * 8)];
+        // x+8 meaning left side of grid;
+        outlet(0, "osc", "/monome/grid/led/level/set", x + 8, y, z);
       }
     }
   }
+  if (ledstate == 2) {
+    for (var x = 0; x < 8; x++) {
+      for (var y = 0; y < 8; y++) {
+        var z = leds2[x + (y * 8)];
+        // x+8 meaning left side of grid;
+        outlet(0, "osc", "/monome/grid/led/level/set", x + 8, y, z);
+      }
+    }
+  }
+}

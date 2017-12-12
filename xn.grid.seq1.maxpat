@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 1016.0, 85.0, 502.0, 920.0 ],
+		"rect" : [ 1016.0, 85.0, 379.0, 920.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -38,6 +38,18 @@
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"id" : "obj-4",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 219.0, 686.0, 34.0, 22.0 ],
+					"style" : "",
+					"text" : "print"
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"id" : "obj-6",
 					"maxclass" : "message",
 					"numinlets" : 2,
@@ -65,14 +77,14 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-33",
-					"linecount" : 15,
+					"linecount" : 2,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 150.0, 732.0, 50.0, 215.0 ],
+					"patching_rect" : [ 150.0, 732.0, 50.0, 36.0 ],
 					"style" : "",
-					"text" : "<undefined> <undefined> <undefined> <undefined> 12 <undefined> <undefined> <undefined>"
+					"text" : "43 3 36 36"
 				}
 
 			}
@@ -85,20 +97,21 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 224.0, 742.0, 50.0, 22.0 ],
 					"style" : "",
-					"text" : "5"
+					"text" : "36 120"
 				}
 
 			}
 , 			{
 				"box" : 				{
 					"id" : "obj-37",
+					"linecount" : 2,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 104.0, 671.0, 89.5, 22.0 ],
+					"patching_rect" : [ 104.0, 671.0, 89.5, 36.0 ],
 					"style" : "",
-					"text" : "0"
+					"text" : "0 12 24 36 48 60"
 				}
 
 			}
@@ -282,7 +295,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 286.0, 399.0, 50.0, 22.0 ],
 					"style" : "",
-					"text" : "0 0"
+					"text" : "0 1"
 				}
 
 			}
@@ -582,7 +595,7 @@
 ,
 					"style" : "",
 					"text" : "autopattr",
-					"varname" : "u478000615"
+					"varname" : "u840000879"
 				}
 
 			}
@@ -1498,7 +1511,16 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-4", 0 ],
+					"order" : 1,
+					"source" : [ "obj-27", 1 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-43", 1 ],
+					"order" : 0,
 					"source" : [ "obj-27", 1 ]
 				}
 
