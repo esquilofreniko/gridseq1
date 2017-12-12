@@ -383,8 +383,6 @@ function lengthmenu(xl, y) {
       lengths[i] = ((60000 / (clockbpm)) / 2) * 16;
     }
   }
-  outlet(1, lengthsnum);
-  outlet(2, lengths);
 }
 
 function octavemenu(xl, y, z) {
@@ -412,7 +410,6 @@ function octavemenu(xl, y, z) {
       leds2[i + ((5 - (octs[i][j] / 12)) * 8)] = 10;
     }
   }
-  outlet(1, octs[xl]);
 }
 
 function notemodemenu(xl, y) {
@@ -651,7 +648,6 @@ function seq1play() {
       }
     }
   }
-  outlet(2, soloouts);
   redraw();
 }
 
