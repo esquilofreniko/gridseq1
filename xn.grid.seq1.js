@@ -104,7 +104,7 @@ function seq1key(x, y, z) {
     for (var i = 0; i < 8; i++) {
       if (states1[i + (6 * 8)] == 1 || states1[i + (6 * 8)] == 3) {
         var nxl = xl;
-        notemenu(nxl, y);
+        notemenu(nxl, y,z);
       }
     }
     if (states1[0 + (7 * 8)] == 1 || states1[0 + (7 * 8)] == 3) {
@@ -181,7 +181,7 @@ function clockmenu(xl, y) {
   }
   for (var i = 0; i < 8; i++) {
     for (var j = 0; j < 6; j++) {
-      leds2[i + j * 8] = 4;
+      leds2[i + j * 8] = 6;
     }
     for (var j = 6; j < 8; j++) {
       leds2[i + j * 8] = 0;
@@ -390,9 +390,22 @@ function modemenu(xl, y) {
   }
 }
 
-function notemenu(nxl, y) {
+function notemenu(nxl, y, z) {
   if (y == 6) {
     nmxl = nxl;
+  }
+  if (y <= 5) {
+    if(z==0){
+      if(inArray(nxl+y*8,outs[nmxl])==1){
+          for(var i=0;i<outs[nmxl].length;i++){
+            if(outs[nmxl][i] == nxl+y*8){
+              outs[nmxl].splice(i,1);
+            }
+          }
+      } else if(inArray(nxl+y*8,outs[nmxl])==0){
+        outs[nmxl][(outs[nmxl].length)] = nxl+y*8;
+      }
+    }
   }
   for (var i = 0; i < 8; i++) {
     for (var j = 0; j < 6; j++) {
@@ -402,13 +415,8 @@ function notemenu(nxl, y) {
       leds2[i + (j + 6) * 8] = 0;
     }
   }
-  if (y <= 5) {
-    if(inArray(nxl+y*8,outs[nmxl])==1){
-      outs[nmxl] = new Array(1);
-      outs[nmxl][0]=nmxl;
-    } else if(inArray(nxl+y*8,outs[nmxl])==0){
-      outs[nmxl][(outs[nmxl].length)] = nxl+y*8;
-    }
+  for (var i = 0; i< outs[nmxl].length; i++){
+    leds2[outs[nmxl][i]] = 10;
   }
   outlet(1,outs[nmxl]);
   outlet(2,noteouts[nmxl]);
@@ -510,8 +518,8 @@ function seq1play() {
             if (probmath[i] > probrand[i]) {
               if(notemodes[i] == 4){
                 var nmout = Math.floor(Math.random() * outs[i].length);
-                outlet(0, "trig", (outs[i][nmout] + octs[i]));
-                leds1[i + (count[i] * 8)] = 15;
+                  outlet(0, "trig", (outs[i][nmout] + octs[i]));
+                  leds1[i + (count[i] * 8)] = 15;
               }
             }
           }

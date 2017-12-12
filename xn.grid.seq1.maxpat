@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 894.0, 85.0, 526.0, 920.0 ],
+		"rect" : [ 1023.0, 85.0, 501.0, 920.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -38,29 +38,83 @@
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
 				"box" : 				{
-					"id" : "obj-43",
-					"linecount" : 2,
+					"id" : "obj-33",
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 228.0, 749.0, 50.0, 36.0 ],
+					"patching_rect" : [ 195.5, 671.0, 50.0, 22.0 ],
 					"style" : "",
-					"text" : "1.#QNAN"
+					"text" : "7"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-14",
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 66.0, 871.0, 50.0, 22.0 ],
+					"style" : "",
+					"text" : "1"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-6",
+					"maxclass" : "button",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "bang" ],
+					"patching_rect" : [ 63.0, 800.0, 24.0, 24.0 ],
+					"style" : ""
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-2",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 111.0, 825.0, 59.0, 22.0 ],
+					"saved_object_attributes" : 					{
+						"filename" : "arr.find.js",
+						"parameter_enable" : 0
+					}
+,
+					"style" : "",
+					"text" : "js arr.find"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-43",
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 224.0, 742.0, 50.0, 22.0 ],
+					"style" : "",
+					"text" : "4"
 				}
 
 			}
 , 			{
 				"box" : 				{
 					"id" : "obj-37",
-					"linecount" : 6,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 104.0, 671.0, 89.5, 91.0 ],
+					"patching_rect" : [ 104.0, 671.0, 89.5, 22.0 ],
 					"style" : "",
-					"text" : "0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"
+					"text" : "3"
 				}
 
 			}
@@ -83,7 +137,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 357.666656, 671.0, 50.0, 22.0 ],
+					"patching_rect" : [ 348.5, 672.0, 50.0, 22.0 ],
 					"style" : "",
 					"text" : "120"
 				}
@@ -544,7 +598,7 @@
 ,
 					"style" : "",
 					"text" : "autopattr",
-					"varname" : "u376001461"
+					"varname" : "u981000618"
 				}
 
 			}
@@ -1402,6 +1456,13 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-14", 1 ],
+					"source" : [ "obj-2", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-30", 1 ],
 					"source" : [ "obj-23", 1 ]
 				}
@@ -1441,6 +1502,13 @@
 					"destination" : [ "obj-35", 1 ],
 					"order" : 0,
 					"source" : [ "obj-27", 2 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-43", 1 ],
+					"source" : [ "obj-27", 1 ]
 				}
 
 			}
@@ -1490,6 +1558,13 @@
 				"patchline" : 				{
 					"destination" : [ "obj-27", 0 ],
 					"source" : [ "obj-31", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-33", 1 ],
+					"source" : [ "obj-31", 2 ]
 				}
 
 			}
@@ -1574,6 +1649,13 @@
 				"patchline" : 				{
 					"destination" : [ "obj-57", 1 ],
 					"source" : [ "obj-59", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-2", 0 ],
+					"source" : [ "obj-6", 0 ]
 				}
 
 			}
@@ -1812,6 +1894,13 @@
 				"name" : "xn.hmp.js",
 				"bootpath" : "D:/xynps/Max/Units/Monome/xn.gridseq1/xn.hmp",
 				"patcherrelativepath" : "./xn.hmp",
+				"type" : "TEXT",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "arr.find.js",
+				"bootpath" : "D:/Documents/Max 7/Packages/Max for the Visual Arts/javascript/nodeJS/node_modules/request/node_modules/hawk/node_modules/boom/node_modules/hoek/test/modules",
+				"patcherrelativepath" : "../../../../../Documents/Max 7/Packages/Max for the Visual Arts/javascript/nodeJS/node_modules/request/node_modules/hawk/node_modules/boom/node_modules/hoek/test/modules",
 				"type" : "TEXT",
 				"implicit" : 1
 			}
