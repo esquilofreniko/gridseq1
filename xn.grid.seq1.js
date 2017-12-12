@@ -11,7 +11,6 @@ function delayThis(a, b) {
   delayValue = a;
   Delayer.schedule(b);
 }
-
 function inArray(needle, haystack) {
   var count = haystack.length;
   for (var i = 0; i < count; i++) {
@@ -37,6 +36,8 @@ var noteouts = new Array(8);
 var probmath = new Array(8);
 var probrand = new Array(8);
 var outs = new Array(8);
+var lengths = new Array(8);
+var lengthsnum = new Array(8);
 outs = [ 0, 1, 2, 3, 4, 5, 6, 7 ];
 var morphrand = new Array(8);
 var morphnum = new Array(8);
@@ -51,7 +52,7 @@ var clockbpm;
 
 function seq1clear() {
   ledstate = 1;
-  modes2 = 5;
+  modes2 = 4;
   for (var i = 0; i < 64; i++) {
     states1[i] = 0;
     leds1[i] = 0;
@@ -62,7 +63,7 @@ function seq1clear() {
     probs[i] = 5;
     fills[i] = 1;
     modes1[i] = 0;
-    notemodes[i] = 2;
+    notemodes[i] = 1;
     morphrand[i] = 0;
     morphnum[i] = 0;
     divs[i] = 1;
@@ -73,6 +74,8 @@ function seq1clear() {
     outs[i][0] = i;
     octs[i] = new Array(1);
     octs[i][0] = 0;
+    lengthsnum[i] = 0;
+    lengths[i] = 0;
   }
   clockstatus = 24;
   clockbpm = clockstatus * 5;
@@ -342,12 +345,46 @@ function probabilitymenu(xl, y) {
 }
 
 function lengthmenu(xl, y) {
+  if (y < 6) {
+    lengthsnum[xl] = 5 - y;
+  }
   for (var i = 0; i < 8; i++) {
-    for (var j = 0; j < 8; j++) {
+    for (var j = 0; j < 6; j++) {
+      leds2[i + j * 8] = 8;
+    }
+    for (var j = 6; j >= 7; j++) {
       leds2[i + j * 8] = 0;
     }
+    for (var j = 0; j < 5 - lengthsnum[i]; j++) {
+      leds2[i + j * 8] = 0;
+    }
+    leds2[i + 5 * 8] = 4;
+    leds2[i + 6 * 8] = 0;
+    leds2[i + 7 * 8] = 0;
+    leds2[i + ((5 - lengthsnum[i]) * 8)] = 10;
+    if(lengthsnum[i]==0){
+      lengths[i] = 0;
+    }
+    if(lengthsnum[i]==1){
+      lengths[i] = ((60000/(clockbpm))/2)*1;
+    }
+    if(lengthsnum[i]==2){
+      lengths[i] = ((60000/(clockbpm))/2)*2;
+    }
+    if(lengthsnum[i]==3){
+      lengths[i] = ((60000/(clockbpm))/2)*4;
+    }
+    if(lengthsnum[i]==4){
+      lengths[i] = ((60000/(clockbpm))/2)*8;
+    }
+    if(lengthsnum[i]==5){
+      lengths[i] = ((60000/(clockbpm))/2)*16;
+    }
   }
+  outlet(1,lengthsnum);
+  outlet(2,lengths);
 }
+
 
 function octavemenu(xl, y, z) {
   if (y <= 5) {
