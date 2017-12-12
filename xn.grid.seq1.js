@@ -31,6 +31,8 @@ var octs = new Array(8);
 var probs = new Array(8);
 var fills = new Array(8);
 var modes1 = new Array(8);
+var notemodes = new Array(8);
+var noteouts = new Array(8);
 var probmath = new Array(8);
 var probrand = new Array(8);
 var outs = new Array(8);
@@ -60,17 +62,15 @@ function seq1clear() {
     fills[i] = 1;
     octs[i] = 0;
     modes1[i] = 1;
+    notemodes[i]=4
     morphrand[i] = 0;
     morphnum[i] = 0;
     divs[i] = 1;
     count[i] = 0;
     countf[i] = 0;
     old[i] = 7;
-    outs[i] = new Array(48);
-    for(var j =0;j<48;j++){
-      outs[i][j] = 0;
-      outs[i][i] = 1;
-    }
+    outs[i] = new Array(1);
+    outs[i][0] = i;
   }
   clockstatus = 24;
   clockbpm = clockstatus*5;
@@ -403,20 +403,15 @@ function notemenu(nxl, y) {
     }
   }
   if (y <= 5) {
-    if(outs[nmxl][nxl+y*8]==1){
-      outs[nmxl][nxl+y*8]=0;
-    } else if(outs[nmxl][nxl+y*8]==0){
-      outs[nmxl][nxl+y*8]=1;
-    }
-  }
-  for(var i = 0; i<48;i++){
-    if(outs[nxl][i]==1){
-      leds2[i]=10;
-    } else if(outs[nxl][i]==0){
-      leds2[i]=2;
+    if(inArray(nxl+y*8,outs[nmxl])==1){
+      outs[nmxl] = new Array(1);
+      outs[nmxl][0]=nmxl;
+    } else if(inArray(nxl+y*8,outs[nmxl])==0){
+      outs[nmxl][(outs[nmxl].length)] = nxl+y*8;
     }
   }
   outlet(1,outs[nmxl]);
+  outlet(2,noteouts[nmxl]);
 }
 
 function seq1play() {
@@ -513,8 +508,11 @@ function seq1play() {
             probmath[i] = leds1[i + (count[i] * 8)] - 2; // 0 2 4 6 8 10
             probrand[i] = Math.random() * 10;
             if (probmath[i] > probrand[i]) {
-              outlet(0, "trig", (outs[i][0] + octs[i]));
-              leds1[i + (count[i] * 8)] = 15;
+              if(notemodes[i] == 4){
+                var nmout = Math.floor(Math.random() * outs[i].length);
+                outlet(0, "trig", (outs[i][nmout] + octs[i]));
+                leds1[i + (count[i] * 8)] = 15;
+              }
             }
           }
         }
