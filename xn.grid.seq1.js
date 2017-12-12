@@ -582,36 +582,40 @@ function seq1play() {
   if (modes2 == 5) {
     solorand = (Math.floor(Math.random() * soloouts.length));
     if (soloouts.length > 0) {
-      if (notemodes[solorand] == 0) {
-        outlet(0, "trig", soloouts[solorand]);
-        for (var i = 0; i < 8; i++) {
-          if (wtv1[i] == soloouts[solorand]) {
+
+      for (var i = 0; i < 8; i++) {
+        if (wtv1[i] == soloouts[solorand]) {
+          if (notemodes[i] == 0) {
+            outlet(0, "trig", soloouts[solorand]);
+            leds1[i + (count[i] * 8)] = 15;
+          } else if (notemodes[i] > 0) {
+            outlet(0, "trig", soloouts[solorand],120);
             leds1[i + (count[i] * 8)] = 15;
           }
         }
       }
     }
+    }
+    redraw();
   }
-  redraw();
-}
 
-function redraw() {
-  if (ledstate == 1) {
-    for (var x = 0; x < 8; x++) {
-      for (var y = 0; y < 8; y++) {
-        var z = leds1[x + (y * 8)];
-        // x+8 meaning left side of grid;
-        outlet(0, "osc", "/monome/grid/led/level/set", x + 8, y, z);
+  function redraw() {
+    if (ledstate == 1) {
+      for (var x = 0; x < 8; x++) {
+        for (var y = 0; y < 8; y++) {
+          var z = leds1[x + (y * 8)];
+          // x+8 meaning left side of grid;
+          outlet(0, "osc", "/monome/grid/led/level/set", x + 8, y, z);
+        }
+      }
+    }
+    if (ledstate == 2) {
+      for (var x = 0; x < 8; x++) {
+        for (var y = 0; y < 8; y++) {
+          var z = leds2[x + (y * 8)];
+          // x+8 meaning left side of grid;
+          outlet(0, "osc", "/monome/grid/led/level/set", x + 8, y, z);
+        }
       }
     }
   }
-  if (ledstate == 2) {
-    for (var x = 0; x < 8; x++) {
-      for (var y = 0; y < 8; y++) {
-        var z = leds2[x + (y * 8)];
-        // x+8 meaning left side of grid;
-        outlet(0, "osc", "/monome/grid/led/level/set", x + 8, y, z);
-      }
-    }
-  }
-}
