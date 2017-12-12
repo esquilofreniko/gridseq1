@@ -12,13 +12,14 @@ function delayThis(a, b) {
   Delayer.schedule(b);
 }
 
-function inArray(needle,haystack){
-    var count=haystack.length;
-    for(var i=0;i<count;i++)
-    {
-        if(haystack[i]===needle){return 1;}
+function inArray(needle, haystack) {
+  var count = haystack.length;
+  for (var i = 0; i < count; i++) {
+    if (haystack[i] === needle) {
+      return 1;
     }
-    return 0;
+  }
+  return 0;
 }
 
 var ledstate = 1;
@@ -60,9 +61,8 @@ function seq1clear() {
   for (var i = 0; i < 8; i++) {
     probs[i] = 5;
     fills[i] = 1;
-    octs[i] = 0;
     modes1[i] = 1;
-    notemodes[i]=4
+    notemodes[i] = 1;
     morphrand[i] = 0;
     morphnum[i] = 0;
     divs[i] = 1;
@@ -71,10 +71,12 @@ function seq1clear() {
     old[i] = 7;
     outs[i] = new Array(1);
     outs[i][0] = i;
+    octs[i] = new Array(1);
+    octs[i][0] = 0;
   }
   clockstatus = 24;
-  clockbpm = clockstatus*5;
-  outlet(0,"clock",clockbpm);
+  clockbpm = clockstatus * 5;
+  outlet(0, "clock", clockbpm);
   redraw();
 }
 
@@ -104,11 +106,11 @@ function seq1key(x, y, z) {
     for (var i = 0; i < 8; i++) {
       if (states1[i + (6 * 8)] == 1 || states1[i + (6 * 8)] == 3) {
         var nxl = xl;
-        notemenu(nxl, y,z);
+        notemenu(nxl, y, z);
       }
     }
     if (states1[0 + (7 * 8)] == 1 || states1[0 + (7 * 8)] == 3) {
-      clockmenu(xl,y);
+      clockmenu(xl, y);
     }
     if (states1[1 + (7 * 8)] == 1 || states1[1 + (7 * 8)] == 3) {
       divmenu(xl, y);
@@ -124,7 +126,7 @@ function seq1key(x, y, z) {
       lengthmenu(xl, y);
     }
     if (states1[5 + (7 * 8)] == 1 || states1[5 + (7 * 8)] == 3) {
-      octavemenu(xl, y);
+      octavemenu(xl, y, z);
     }
     if (states1[6 + (7 * 8)] == 1 || states1[6 + (7 * 8)] == 3) {
       notemodemenu(xl, y);
@@ -175,9 +177,9 @@ function ledstatemenu() {
 }
 
 function clockmenu(xl, y) {
-  if(y<6){
-    clockstatus = 48-((xl+y*8));
-    clockbpm = clockstatus*5;
+  if (y < 6) {
+    clockstatus = 48 - ((xl + y * 8));
+    clockbpm = clockstatus * 5;
   }
   for (var i = 0; i < 8; i++) {
     for (var j = 0; j < 6; j++) {
@@ -186,9 +188,9 @@ function clockmenu(xl, y) {
     for (var j = 6; j < 8; j++) {
       leds2[i + j * 8] = 0;
     }
-    leds2[48-(clockstatus)]=10;
+    leds2[48 - (clockstatus)] = 12;
   }
-  outlet(0,"clock",clockbpm);
+  outlet(0, "clock", clockbpm);
 }
 
 function divmenu(xl, y) {
@@ -347,26 +349,52 @@ function lengthmenu(xl, y) {
   }
 }
 
-function octavemenu(xl, y) {
+function octavemenu(xl, y, z) {
+  if (y <= 5) {
+    if (z == 0) {
+      if (inArray(60 - (y * 12), octs[xl]) == 1) {
+        for (var i = 0; i < octs[xl].length; i++) {
+          if (octs[xl][i] == 60 - (y * 12)) {
+            octs[xl].splice(i, 1);
+          }
+        }
+      } else if (inArray(60 - (y * 12), octs[xl]) == 0) {
+        octs[xl][(octs[xl].length)] = 60 - (y * 12);
+      }
+    }
+  }
   for (var i = 0; i < 8; i++) {
     for (var j = 0; j < 6; j++) {
       leds2[i + j * 8] = 4;
     }
-    for (var j = 6; j >= 7; j++) {
-      leds2[i + j * 8] = 0;
+    for (var j = 0; j < 2; j++) {
+      leds2[i + (j + 6) * 8] = 0;
     }
-    leds2[i + ((5 - (octs[i] / 12)) * 8)] = 10;
+    for (var j = 0; j <= octs[xl].length; j++) {
+      leds2[i + ((5 - (octs[i][j] / 12)) * 8)] = 10;
+    }
   }
-  if (y <= 5) {
-    octs[xl] = 60 - (y * 12);
-  }
+  outlet(1, octs[xl]);
 }
 
 function notemodemenu(xl, y) {
+  if (y < 6) {
+    notemodes[xl] = 5 - y;
+  }
   for (var i = 0; i < 8; i++) {
-    for (var j = 0; j < 8; j++) {
+    for (var j = 0; j < 6; j++) {
+      leds2[i + j * 8] = 8;
+    }
+    for (var j = 6; j >= 7; j++) {
       leds2[i + j * 8] = 0;
     }
+    for (var j = 0; j < 5 - notemodes[i]; j++) {
+      leds2[i + j * 8] = 0;
+    }
+    leds2[i + 5 * 8] = 4;
+    leds2[i + 6 * 8] = 0;
+    leds2[i + 7 * 8] = 0;
+    leds2[i + ((5 - notemodes[i]) * 8)] = 10;
   }
 }
 
@@ -395,15 +423,15 @@ function notemenu(nxl, y, z) {
     nmxl = nxl;
   }
   if (y <= 5) {
-    if(z==0){
-      if(inArray(nxl+y*8,outs[nmxl])==1){
-          for(var i=0;i<outs[nmxl].length;i++){
-            if(outs[nmxl][i] == nxl+y*8){
-              outs[nmxl].splice(i,1);
-            }
+    if (z == 0) {
+      if (inArray(nxl + y * 8, outs[nmxl]) == 1) {
+        for (var i = 0; i < outs[nmxl].length; i++) {
+          if (outs[nmxl][i] == nxl + y * 8) {
+            outs[nmxl].splice(i, 1);
           }
-      } else if(inArray(nxl+y*8,outs[nmxl])==0){
-        outs[nmxl][(outs[nmxl].length)] = nxl+y*8;
+        }
+      } else if (inArray(nxl + y * 8, outs[nmxl]) == 0) {
+        outs[nmxl][(outs[nmxl].length)] = nxl + y * 8;
       }
     }
   }
@@ -415,11 +443,9 @@ function notemenu(nxl, y, z) {
       leds2[i + (j + 6) * 8] = 0;
     }
   }
-  for (var i = 0; i< outs[nmxl].length; i++){
+  for (var i = 0; i < outs[nmxl].length; i++) {
     leds2[outs[nmxl][i]] = 10;
   }
-  outlet(1,outs[nmxl]);
-  outlet(2,noteouts[nmxl]);
 }
 
 function seq1play() {
@@ -516,10 +542,10 @@ function seq1play() {
             probmath[i] = leds1[i + (count[i] * 8)] - 2; // 0 2 4 6 8 10
             probrand[i] = Math.random() * 10;
             if (probmath[i] > probrand[i]) {
-              if(notemodes[i] == 4){
+              if (notemodes[i] == 1) {
                 var nmout = Math.floor(Math.random() * outs[i].length);
-                  outlet(0, "trig", (outs[i][nmout] + octs[i]));
-                  leds1[i + (count[i] * 8)] = 15;
+                outlet(0, "trig", (outs[i][nmout] + octs[i]));
+                leds1[i + (count[i] * 8)] = 15;
               }
             }
           }

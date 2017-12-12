@@ -10,5 +10,5 @@ if(y == 7){
 7: mode (done)
 }
 if(y == 6){
-all: note (various)
+all: note (done)
 }
