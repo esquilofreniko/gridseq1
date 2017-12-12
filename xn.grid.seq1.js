@@ -49,6 +49,7 @@ var countf = [];
 var old = [];
 var clockstatus;
 var clockbpm;
+var tsk = [];
 
 function seq1clear() {
   ledstate = 1;
@@ -362,29 +363,28 @@ function lengthmenu(xl, y) {
     leds2[i + 6 * 8] = 0;
     leds2[i + 7 * 8] = 0;
     leds2[i + ((5 - lengthsnum[i]) * 8)] = 10;
-    if(lengthsnum[i]==0){
+    if (lengthsnum[i] == 0) {
       lengths[i] = 0;
     }
-    if(lengthsnum[i]==1){
-      lengths[i] = ((60000/(clockbpm))/2)*1;
+    if (lengthsnum[i] == 1) {
+      lengths[i] = ((60000 / (clockbpm)) / 2) * 1;
     }
-    if(lengthsnum[i]==2){
-      lengths[i] = ((60000/(clockbpm))/2)*2;
+    if (lengthsnum[i] == 2) {
+      lengths[i] = ((60000 / (clockbpm)) / 2) * 2;
     }
-    if(lengthsnum[i]==3){
-      lengths[i] = ((60000/(clockbpm))/2)*4;
+    if (lengthsnum[i] == 3) {
+      lengths[i] = ((60000 / (clockbpm)) / 2) * 4;
     }
-    if(lengthsnum[i]==4){
-      lengths[i] = ((60000/(clockbpm))/2)*8;
+    if (lengthsnum[i] == 4) {
+      lengths[i] = ((60000 / (clockbpm)) / 2) * 8;
     }
-    if(lengthsnum[i]==5){
-      lengths[i] = ((60000/(clockbpm))/2)*16;
+    if (lengthsnum[i] == 5) {
+      lengths[i] = ((60000 / (clockbpm)) / 2) * 16;
     }
   }
-  outlet(1,lengthsnum);
-  outlet(2,lengths);
+  outlet(1, lengthsnum);
+  outlet(2, lengths);
 }
-
 
 function octavemenu(xl, y, z) {
   if (y <= 5) {
@@ -484,6 +484,8 @@ function notemenu(nxl, y, z) {
     leds2[outs[nmxl][i]] = 10;
   }
 }
+
+function noteoff(n) { outlet(0, "trig", n, 0); }
 
 function seq1play() {
   var soloouts = [];
@@ -593,6 +595,8 @@ function seq1play() {
                   octout[j] = Math.floor(Math.random() * octs[i].length);
                   outlet(0, "trig", (outs[i][nmout[j]] + octs[i][octout[j]]),
                          120);
+                  tsk[i] = new Task(noteoff,this,outs[i][nmout[j]] + octs[i][octout[j]]);
+                  tsk[i].repeat(1,lengths[i]);
                   leds1[i + (count[i] * 8)] = 15;
                 }
               }
@@ -626,8 +630,7 @@ function seq1play() {
   }
   if (modes2 == 5) {
     if (soloouts.length > 0) {
-          solorand = (Math.floor(Math.random() * soloouts.length));
-
+      solorand = (Math.floor(Math.random() * soloouts.length));
 
       for (var i = 0; i < 8; i++) {
         if (wtv1[i] == soloouts[solorand]) {
@@ -637,7 +640,8 @@ function seq1play() {
           } else if (notemodes[i] > 0) {
             for (var j = 0; j < notemodes[i]; j++) {
 
-              outlet(0, "trig", soloouts[(solorand+j)%soloouts.length], 120);
+              outlet(0, "trig", soloouts[(solorand + j) % soloouts.length],
+                     120);
               leds1[i + (count[i] * 8)] = 15;
             }
           }
@@ -645,7 +649,7 @@ function seq1play() {
       }
     }
   }
-  outlet(2,soloouts);
+  outlet(2, soloouts);
   redraw();
 }
 
