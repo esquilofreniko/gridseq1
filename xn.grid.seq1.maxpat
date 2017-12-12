@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 1016.0, 85.0, 520.0, 920.0 ],
+		"rect" : [ 1016.0, 85.0, 502.0, 920.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -38,18 +38,6 @@
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
 				"box" : 				{
-					"id" : "obj-9",
-					"maxclass" : "newobj",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 141.0, 784.0, 34.0, 22.0 ],
-					"style" : "",
-					"text" : "print"
-				}
-
-			}
-, 			{
-				"box" : 				{
 					"id" : "obj-6",
 					"maxclass" : "message",
 					"numinlets" : 2,
@@ -77,14 +65,14 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-33",
-					"linecount" : 2,
+					"linecount" : 15,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 209.5, 687.0, 50.0, 36.0 ],
+					"patching_rect" : [ 150.0, 732.0, 50.0, 215.0 ],
 					"style" : "",
-					"text" : "\"array spliced\""
+					"text" : "<undefined> <undefined> <undefined> <undefined> 12 <undefined> <undefined> <undefined>"
 				}
 
 			}
@@ -97,21 +85,20 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 224.0, 742.0, 50.0, 22.0 ],
 					"style" : "",
-					"text" : "30 120"
+					"text" : "5"
 				}
 
 			}
 , 			{
 				"box" : 				{
 					"id" : "obj-37",
-					"linecount" : 2,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 104.0, 671.0, 89.5, 36.0 ],
+					"patching_rect" : [ 104.0, 671.0, 89.5, 22.0 ],
 					"style" : "",
-					"text" : "0 12 24 36 48 60"
+					"text" : "0"
 				}
 
 			}
@@ -1512,7 +1499,6 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-43", 1 ],
-					"order" : 0,
 					"source" : [ "obj-27", 1 ]
 				}
 
@@ -1521,14 +1507,6 @@
 				"patchline" : 				{
 					"destination" : [ "obj-83", 0 ],
 					"source" : [ "obj-27", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-9", 0 ],
-					"order" : 1,
-					"source" : [ "obj-27", 1 ]
 				}
 
 			}

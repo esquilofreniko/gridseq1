@@ -51,7 +51,7 @@ var clockbpm;
 
 function seq1clear() {
   ledstate = 1;
-  modes2 = 4;
+  modes2 = 5;
   for (var i = 0; i < 64; i++) {
     states1[i] = 0;
     leds1[i] = 0;
@@ -451,6 +451,7 @@ function notemenu(nxl, y, z) {
 function seq1play() {
   var soloouts = [];
   var solorand;
+  var wtv1 = new Array(8);
   for (var i = 0; i < 8; i++) {
     if (divs[i] == 6) {
       if (leds1[i + (old[i] * 8)] < 4) {
@@ -550,12 +551,13 @@ function seq1play() {
               } else if (notemodes[i] > 0) {
                 var nmout = [];
                 var octout = [];
-                  for(var j=0;j<notemodes[i];j++){
-                    nmout[j] = Math.floor(Math.random() * outs[i].length);
-                    octout[j] = Math.floor(Math.random() * octs[i].length);
-                    outlet(0, "trig", (outs[i][nmout[j]] + octs[i][octout[j]]), 120);
-                    leds1[i + (count[i] * 8)] = 15;
-                  }
+                for (var j = 0; j < notemodes[i]; j++) {
+                  nmout[j] = Math.floor(Math.random() * outs[i].length);
+                  octout[j] = Math.floor(Math.random() * octs[i].length);
+                  outlet(0, "trig", (outs[i][nmout[j]] + octs[i][octout[j]]),
+                         120);
+                  leds1[i + (count[i] * 8)] = 15;
+                }
               }
             }
           }
@@ -566,7 +568,11 @@ function seq1play() {
             probmath[i] = (leds1[i + (count[i] * 8)] - 2); // 0 2 4 6 8 10
             probrand[i] = Math.random() * 10;
             if (probmath[i] > probrand[i]) {
-              soloouts.push(i);
+              var nm0out2 = Math.floor(Math.random() * outs[i].length);
+              var oct0out2 = Math.floor(Math.random() * octs[i].length);
+              soloouts.push(outs[i][nm0out2] + octs[i][oct0out2]);
+              wtv1[i] = (outs[i][nm0out2] + octs[i][oct0out2]);
+              outlet(2, soloouts[i]);
             }
           }
         }
@@ -576,8 +582,14 @@ function seq1play() {
   if (modes2 == 5) {
     solorand = (Math.floor(Math.random() * soloouts.length));
     if (soloouts.length > 0) {
-      outlet(0, "trig", soloouts[solorand]);
-      leds1[soloouts[solorand] + (count[solorand] * 8)] = 15;
+      if (notemodes[solorand] == 0) {
+        outlet(0, "trig", soloouts[solorand]);
+        for (var i=0;i<8;i++){
+          if(wtv1[i] == soloouts[solorand]){
+            leds1[wtv1[i] + (count[i] * 8)] = 15;
+          }
+        }
+      }
     }
   }
   redraw();
