@@ -50,6 +50,7 @@ var old = [];
 var clockstatus;
 var clockbpm;
 var tsk = [];
+var trigside;
 
 function seq1clear() {
   ledstate = 1;
@@ -483,7 +484,7 @@ function notemenu(nxl, y, z) {
   }
 }
 
-function noteoff(n) { outlet(0, "trig", 1, n, 0); }
+function noteoff(n,side) { outlet(0, "trig", side, n, 0); }
 
 function seq1play() {
   var soloouts = [];
@@ -574,6 +575,12 @@ function seq1play() {
         if (leds1[i + (count[i] * 8)] < 4) {
           leds1[i + (count[i] * 8)] = 2;
         }
+        if(i < 4){
+          trigside = 1;
+        }
+        else if (i >= 4){
+          trigside = 2;
+        }
         if (modes2 == 4) {
           // normal
           if (leds1[i + (count[i] * 8)] >= 4) {
@@ -583,7 +590,7 @@ function seq1play() {
               if (notemodes[i] == 0) {
                 var nm0out = Math.floor(Math.random() * outs[i].length);
                 var oct0out = Math.floor(Math.random() * octs[i].length);
-                outlet(0, "trig", 1, (outs[i][nm0out] + octs[i][oct0out]));
+                outlet(0, "trig", trigside, (outs[i][nm0out] + octs[i][oct0out]));
                 leds1[i + (count[i] * 8)] = 15;
               } else if (notemodes[i] > 0) {
                 var nmout = [];
@@ -591,9 +598,9 @@ function seq1play() {
                 for (var j = 0; j < notemodes[i]; j++) {
                   nmout[j] = Math.floor(Math.random() * outs[i].length);
                   octout[j] = Math.floor(Math.random() * octs[i].length);
-                  tsk[i][j] = new Task(noteoff,this,outs[i][nmout[j]] + octs[i][octout[j]]);
+                  tsk[i][j] = new Task(noteoff,this,outs[i][nmout[j]] + octs[i][octout[j]],trigside);
                   tsk[i][j].repeat(1,lengths[i]);
-                  outlet(0, "trig", 1, (outs[i][nmout[j]] + octs[i][octout[j]]),
+                  outlet(0, "trig", trigside, (outs[i][nmout[j]] + octs[i][octout[j]]),
                          120);
                   leds1[i + (count[i] * 8)] = 15;
                 }
@@ -633,13 +640,13 @@ function seq1play() {
       for (var i = 0; i < 8; i++) {
         if (wtv1[i] == soloouts[solorand]) {
           if (notemodes[i] == 0) {
-            outlet(0, "trig", 1, soloouts[solorand]);
+            outlet(0, "trig", trigside, soloouts[solorand]);
             leds1[i + (count[i] * 8)] = 15;
           } else if (notemodes[i] > 0) {
             for (var j = 0; j < notemodes[i]; j++) {
-              tsk[i][j] = new Task(noteoff,this,soloouts[(solorand + j) % soloouts.length]);
+              tsk[i][j] = new Task(noteoff,this,soloouts[(solorand + j) % soloouts.length],trigside);
               tsk[i][j].repeat(1,lengths[i]);
-              outlet(0, "trig", 1, soloouts[(solorand + j) % soloouts.length],
+              outlet(0, "trig", trigside, soloouts[(solorand + j) % soloouts.length],
                      120);
               leds1[i + (count[i] * 8)] = 15;
             }
