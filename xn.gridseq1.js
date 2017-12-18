@@ -638,6 +638,12 @@ function seq1play() {
       solorand = (Math.floor(Math.random() * soloouts.length));
 
       for (var i = 0; i < 8; i++) {
+        if(i < 4){
+          trigside = 1;
+        }
+        else if (i >= 4){
+          trigside = 2;
+        }
         if (wtv1[i] == soloouts[solorand]) {
           if (notemodes[i] == 0) {
             outlet(0, "trig", trigside, soloouts[solorand]);

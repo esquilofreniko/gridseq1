@@ -206,7 +206,7 @@
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 582.500122, 1022.75, 30.0, 30.0 ],
+					"patching_rect" : [ 580.833435, 1030.75, 30.0, 30.0 ],
 					"style" : ""
 				}
 
@@ -229,24 +229,11 @@
 					"id" : "obj-49",
 					"maxclass" : "newobj",
 					"numinlets" : 1,
-					"numoutlets" : 3,
-					"outlettype" : [ "bang", "bang", "bang" ],
-					"patching_rect" : [ 557.500122, 994.75, 44.0, 22.0 ],
+					"numoutlets" : 4,
+					"outlettype" : [ "bang", "bang", "bang", "int" ],
+					"patching_rect" : [ 557.500122, 994.75, 54.0, 22.0 ],
 					"style" : "",
-					"text" : "t b b b"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-55",
-					"maxclass" : "message",
-					"numinlets" : 2,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 600.500061, 956.0, 90.0, 22.0 ],
-					"style" : "",
-					"text" : "/t_stop $1 0. 0."
+					"text" : "t b b b 1"
 				}
 
 			}
@@ -397,7 +384,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 724.166687, 733.0, 72.0, 22.0 ],
+					"patching_rect" : [ 724.166687, 994.75, 72.0, 22.0 ],
 					"style" : "",
 					"text" : "loadmess 1"
 				}
@@ -410,7 +397,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 9,
 					"outlettype" : [ "int", "int", "float", "float", "float", "", "int", "float", "" ],
-					"patching_rect" : [ 708.666687, 770.0, 103.0, 22.0 ],
+					"patching_rect" : [ 708.666687, 1030.75, 103.0, 22.0 ],
 					"style" : "",
 					"text" : "transport"
 				}
@@ -2663,6 +2650,13 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-42", 1 ],
+					"source" : [ "obj-49", 3 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-70", 0 ],
 					"source" : [ "obj-49", 2 ]
 				}
@@ -2707,13 +2701,6 @@
 				"patchline" : 				{
 					"destination" : [ "obj-68", 0 ],
 					"source" : [ "obj-54", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-105", 1 ],
-					"source" : [ "obj-55", 0 ]
 				}
 
 			}
