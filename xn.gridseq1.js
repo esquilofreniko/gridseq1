@@ -501,17 +501,17 @@ function seq1play() {
         leds1[i + (count[i] * 8)] = 2;
       }
     } else {
-      countf[i] += 1 / divs[i];
-      countf[i] %= 8.0;
-
-      count[i] = Math.floor(countf[i]);
-      count[i] %= 8.0;
-
+      countf[i] += 1;
+      if(countf[i] == divs[i]){
+        countf[i] = 0;
+        count[i] += 1
+      }
+      count[i] %= 8;
       old[i] = (count[i] - 1);
       if (old[i] == -1) {
         old[i] = 7;
       }
-      if (countf[i] == count[i]) {
+      if (countf[i] == 0) {
         if (count[i] == 0) {
           if (modes1[i] == 0) {
             // loop
