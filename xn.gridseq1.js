@@ -511,8 +511,7 @@ function seq1play() {
       if (old[i] == -1) {
         old[i] = 7;
       }
-      // if(countf[i]>=(count[i])+.80 || countf[i]<=(count[i])+1.2) {
-      if (countf[i] >= count[i]) {
+      if (countf[i] == count[i]) {
         if (count[i] == 0) {
           if (modes1[i] == 0) {
             // loop
@@ -661,6 +660,8 @@ function seq1play() {
       }
     }
   }
+  outlet(1,count)
+  outlet(2,countf);
   redraw();
 }
 
