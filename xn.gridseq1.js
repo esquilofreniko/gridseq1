@@ -69,8 +69,8 @@ function seq1clear() {
     morphrand[i] = 0;
     morphnum[i] = 0;
     divs[i] = 1;
-    count[i] = 0;
-    countf[i] = 0;
+    count[i] = -1;
+    countf[i] = -1;
     old[i] = 7;
     outs[i] = new Array(1);
     outs[i][0] = i;
@@ -202,8 +202,8 @@ function clockmenu(xl, y) {
 function divmenu(xl, y) {
   if (y <= 5) {
     divs[xl] = y + 1;
-    count[xl] = 0;
-    countf[xl] = 0;
+    count[xl] = -1;
+    countf[xl] = -1;
     for (var i = 0; i < 8; i++) {
       if (leds1[xl + i * 8] < 4) {
         leds1[xl + i * 8] = 0;
@@ -504,7 +504,7 @@ function seq1play() {
       countf[i] += 1;
       if(countf[i] == divs[i]){
         countf[i] = 0;
-        count[i] += 1
+        count[i] += 1;
       }
       count[i] %= 8;
       old[i] = (count[i] - 1);
@@ -660,8 +660,6 @@ function seq1play() {
       }
     }
   }
-  outlet(1,count)
-  outlet(2,countf);
   redraw();
 }
 
